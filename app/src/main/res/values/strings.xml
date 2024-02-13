@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ICM</string>
+    <string name="searchBTdevices">Searching devices..</string>
+    <string name="searchBTdevicesDone">Searching done</string>
+    <string name="enterMessage">Enter a message</string>
+    <string name="borderradius">10dp</string>
+    <string name="connect_button_text">Connect</string>
+    <string name="discover_button_text">Discover</string>
+    <string name="status">Status:</string>
+    <string name="connected_to">Connected to:</string>
+    <string name="paired_devices">Paired devices:</string>
+    <string name="available_devices">Available devices:</string>
+
+</resources>
