@@ -37,7 +37,7 @@ public class ConnectBT extends AppCompatActivity {
 
     public ArrayList<BluetoothDevice> bluetoothDevicesArrayList = new ArrayList<>();
     public ArrayList<BluetoothDevice> pairedBluetoothDevicesArrayList = new ArrayList<>();
-
+    BTConnectionService mBluetoothConnection;
 
     // my own device
     static BluetoothDevice btDevice;
@@ -55,6 +55,7 @@ public class ConnectBT extends AppCompatActivity {
     StringBuilder incomingMessageSB;
     Button discoverBTN;
     Button connectBTN;
+    Button test_btn;
     TextView searchStatusTV;
     TextView pairedDeviceTV;
     ProgressDialog progressDialog;
@@ -79,7 +80,7 @@ public class ConnectBT extends AppCompatActivity {
         pairedDevicesLV = findViewById(R.id.pairedDeviceLV);
         searchStatusTV = findViewById(R.id.searchStatID);
         pairedDeviceTV = findViewById(R.id.pairedDeviceTV);
-
+        test_btn = findViewById(R.id.t_button);
         //
         incomingMessageSB = new StringBuilder();
         btDevice = null;
@@ -190,6 +191,8 @@ public class ConnectBT extends AppCompatActivity {
             }
         });
 
+
+
         connectBTN.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Toast.makeText(ConnectBT.this, "Connect...",
@@ -207,6 +210,14 @@ public class ConnectBT extends AppCompatActivity {
                     pairedDeviceTV.setText(btDevice.getName());
                 }
                 pairedDevicesLV.setAdapter(pairedDeviceListAdapter);
+            }
+        });
+
+        test_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                byte[] bytes = "abc".getBytes(Charset.defaultCharset());
+                mBluetoothConnection.write(bytes);
             }
         });
     }
@@ -265,10 +276,8 @@ Broadcast Receiver to enable discovery of devices
                         // start discover devices
                         startDiscover();
 
-                        // Start bluetooth connection service -> start accept thread for coonection
-                        strtconnectServiceIntent = new Intent(ConnectBT.this, BTConnectionService.class);
-                        strtconnectServiceIntent.putExtra("serviceType", "listen");
-                        startService(strtconnectServiceIntent);
+                        // Start bluetooth connection service -> start accept thread for connection
+                        mBluetoothConnection = new BTConnectionService(ConnectBT.this);
 
                         chkPairedDevice();
                         break;
@@ -628,6 +637,5 @@ Broadcast Receiver to enable discovery of devices
 
         Log.d(TAG, "All BroadcastReceiver unregistered");
     }
-
 
 }

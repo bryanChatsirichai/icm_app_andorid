@@ -6,14 +6,4 @@
     android:layout_height="match_parent"
     tools:context=".ICM_Home_Activity">
 
-    <Button
-        android:id="@+id/test_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="368dp"
-        android:text="Test"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:onClick="send_test_message"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
