@@ -79,9 +79,12 @@ public class BluetoothCommunication {
         String text = new String(bytes, Charset.defaultCharset());
 
         try {
+            // make a toast
+            Log.d(TAG, "Sending...: ");
             outPutStream.write(bytes);
         } catch (IOException | NullPointerException e) {
             // make a toast
+            Log.d(TAG, e.getMessage());
         }
     }
 

@@ -28,6 +28,7 @@ public class BTConnectionService extends IntentService {
 
     // constructor
     public BTConnectionService() {
+        //
         super("BluetoothConnectionService");
     }
 

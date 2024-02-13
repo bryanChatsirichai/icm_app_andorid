@@ -93,8 +93,8 @@ public class ConnectBT extends AppCompatActivity {
         registerReceiver(enBluetoothBroadcastReceiver, enBTIntent);
 
         // Register BroadcastReceiver for ACTION_SCAN_MODE_CHANGED
-        //IntentFilter enDiscoverabilityintent = new IntentFilter(btAdapter.ACTION_SCAN_MODE_CHANGED);
-        IntentFilter enDiscoverabilityintent = new IntentFilter(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
+        IntentFilter enDiscoverabilityintent = new IntentFilter(btAdapter.ACTION_SCAN_MODE_CHANGED);
+        //IntentFilter enDiscoverabilityintent = new IntentFilter(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
         registerReceiver(ENABLEdiscoverabilityBroadcastReceiver, enDiscoverabilityintent);
 
         // Register BroadcastReceiver for ACTION_DISCOVERY_STARTED
@@ -130,12 +130,14 @@ public class ConnectBT extends AppCompatActivity {
                         btAdapter.cancelDiscovery();
 
                         btDevice = pairedBluetoothDevicesArrayList.get(i);
+                        //btDevice.createBond();
 
                         //UnSelect Search Device List
                         newDevicesLV.setAdapter(deviceListAdapter);
                         //pairedDeviceTV.setText(pairedBluetoothDevicesArrayList.get(i).getName());
                         pairedDeviceTV.setText("");
                         searchStatusTV.setText("");
+
 
                         Log.d(TAG, "Paired Device = " + pairedBluetoothDevicesArrayList.get(i).getName());
                         Log.d(TAG, "DeviceAddress = " + pairedBluetoothDevicesArrayList.get(i).getAddress());
@@ -192,10 +194,9 @@ public class ConnectBT extends AppCompatActivity {
 
         connectBTN.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Toast.makeText(ConnectBT.this, "Connect...",
-                        Toast.LENGTH_LONG).show();
+//                Toast.makeText(ConnectBT.this, "Connect...",
+//                        Toast.LENGTH_LONG).show();
                 if (btDevice == null) {
-
                     Toast.makeText(ConnectBT.this, "No Paired Device! Please discover/select a device.",
                             Toast.LENGTH_LONG).show();
                 } else if (btAdapter.getProfileConnectionState(BluetoothHeadset.HEADSET) == BluetoothHeadset.STATE_CONNECTED) {
@@ -203,8 +204,10 @@ public class ConnectBT extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 } else {
                     // start connect with device that is bonded
+                    Toast.makeText(ConnectBT.this, "Start connection with bonded device",
+                            Toast.LENGTH_LONG).show();
                     startBTConnection(btDevice, mdpUUID);
-                    pairedDeviceTV.setText(btDevice.getName());
+                    //pairedDeviceTV.setText(btDevice.getName());
                 }
                 pairedDevicesLV.setAdapter(pairedDeviceListAdapter);
             }
@@ -628,6 +631,8 @@ Broadcast Receiver to enable discovery of devices
 
         Log.d(TAG, "All BroadcastReceiver unregistered");
     }
-
-
+    public void sendFastestPath (View view) {
+        String str = "FS|";
+        BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+    }
 }
