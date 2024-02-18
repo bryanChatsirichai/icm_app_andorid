@@ -11,9 +11,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="160dp"
-        android:layout_marginTop="368dp"
-        android:text="Test"
+        android:layout_marginTop="548dp"
+        android:onClick="send_test_message"
+        android:text="Action1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/camera_config_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Camera Config"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:onClick="send_test_message"/>
+        app:layout_constraintVertical_bias="0.263" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

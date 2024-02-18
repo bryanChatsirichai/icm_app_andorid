@@ -1,4 +1,5 @@
 package com.example.icm_base_mdp;
+
 import android.app.IntentService;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -16,9 +17,12 @@ public class BTConnectionService extends IntentService {
 
     private static final String TAG = "BTConnectionService";
     private static final String appName = "MDP Group 33";
+
     //UUID
     private static final UUID mdpUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
     private BluetoothAdapter bluetoothAdapter;
+
     private AcceptThread acceptThread;
     private ConnectThread connectThread;
     public  BluetoothDevice myDevice;
@@ -28,7 +32,7 @@ public class BTConnectionService extends IntentService {
 
     // constructor
     public BTConnectionService() {
-        //
+
         super("BluetoothConnectionService");
     }
 
@@ -39,7 +43,6 @@ public class BTConnectionService extends IntentService {
         context = getApplicationContext();
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        assert intent != null;
         if (intent.getStringExtra("serviceType").equals("listen")) {
 
             myDevice = (BluetoothDevice) intent.getExtras().getParcelable("device");

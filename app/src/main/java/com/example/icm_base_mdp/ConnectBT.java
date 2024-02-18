@@ -1,4 +1,5 @@
 package com.example.icm_base_mdp;
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -72,15 +73,12 @@ public class ConnectBT extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_bt);
 
-        // get the UI components
         connectBTN = findViewById(R.id.btnConnect);
         discoverBTN = findViewById(R.id.btnStartDiscover);
         newDevicesLV = findViewById(R.id.newdeviceLV);
         pairedDevicesLV = findViewById(R.id.pairedDeviceLV);
         searchStatusTV = findViewById(R.id.searchStatID);
         pairedDeviceTV = findViewById(R.id.pairedDeviceTV);
-
-        //
         incomingMessageSB = new StringBuilder();
         btDevice = null;
 
@@ -94,7 +92,6 @@ public class ConnectBT extends AppCompatActivity {
 
         // Register BroadcastReceiver for ACTION_SCAN_MODE_CHANGED
         IntentFilter enDiscoverabilityintent = new IntentFilter(btAdapter.ACTION_SCAN_MODE_CHANGED);
-        //IntentFilter enDiscoverabilityintent = new IntentFilter(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
         registerReceiver(ENABLEdiscoverabilityBroadcastReceiver, enDiscoverabilityintent);
 
         // Register BroadcastReceiver for ACTION_DISCOVERY_STARTED
@@ -120,7 +117,6 @@ public class ConnectBT extends AppCompatActivity {
         // Register receiver for incoming message
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, new IntentFilter("IncomingMsg"));
 
-        // set on click for each item in list view
         pairedDevicesLV.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
@@ -130,14 +126,11 @@ public class ConnectBT extends AppCompatActivity {
                         btAdapter.cancelDiscovery();
 
                         btDevice = pairedBluetoothDevicesArrayList.get(i);
-                        //btDevice.createBond();
 
                         //UnSelect Search Device List
                         newDevicesLV.setAdapter(deviceListAdapter);
                         //pairedDeviceTV.setText(pairedBluetoothDevicesArrayList.get(i).getName());
-                        pairedDeviceTV.setText("");
                         searchStatusTV.setText("");
-
 
                         Log.d(TAG, "Paired Device = " + pairedBluetoothDevicesArrayList.get(i).getName());
                         Log.d(TAG, "DeviceAddress = " + pairedBluetoothDevicesArrayList.get(i).getAddress());
@@ -146,7 +139,6 @@ public class ConnectBT extends AppCompatActivity {
                 }
         );
 
-        // set on click for each item in list view
         newDevicesLV.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
@@ -169,8 +161,7 @@ public class ConnectBT extends AppCompatActivity {
 
                         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
                             Log.d(TAG, "Trying to pair with: " + deviceName);
-                            //Toast.makeText(ConnectBT.this, "Trying to pair with: " + deviceName,
-                                    //Toast.LENGTH_LONG).show();
+
                             // create bond
                             bluetoothDevicesArrayList.get(i).createBond();
 
@@ -181,33 +172,33 @@ public class ConnectBT extends AppCompatActivity {
 
                     }
                 }
-            );
+        );
 
         discoverBTN.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                // ask for bluetooth permission
                 enableBT();
-                // clear available devices array list
                 bluetoothDevicesArrayList.clear();
             }
         });
 
+
         connectBTN.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-//                Toast.makeText(ConnectBT.this, "Connect...",
-//                        Toast.LENGTH_LONG).show();
+
                 if (btDevice == null) {
+
                     Toast.makeText(ConnectBT.this, "No Paired Device! Please discover/select a device.",
                             Toast.LENGTH_LONG).show();
                 } else if (btAdapter.getProfileConnectionState(BluetoothHeadset.HEADSET) == BluetoothHeadset.STATE_CONNECTED) {
                     Toast.makeText(ConnectBT.this, "Bluetooth Already Connected",
                             Toast.LENGTH_LONG).show();
                 } else {
+
                     // start connect with device that is bonded
-                    Toast.makeText(ConnectBT.this, "Start connection with bonded device",
-                            Toast.LENGTH_LONG).show();
                     startBTConnection(btDevice, mdpUUID);
                     //pairedDeviceTV.setText(btDevice.getName());
+
+
                 }
                 pairedDevicesLV.setAdapter(pairedDeviceListAdapter);
             }
@@ -221,9 +212,8 @@ public class ConnectBT extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             // when discovery found a device
-            assert action != null;
-            if (action. equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
-                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
+            if (action.equals(btAdapter.ACTION_STATE_CHANGED)) {
+                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, btAdapter.ERROR);
 
                 switch (state) {
                     //BLUETOOTH TURNED OFF STATE
@@ -304,8 +294,7 @@ Broadcast Receiver to enable discovery of devices
             final String action = intent.getAction();
 
             if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_STARTED)) {
-                Toast.makeText(ConnectBT.this, "STARTED DISCOVERY!!!",
-                        Toast.LENGTH_LONG).show();
+
                 Log.d(TAG, "STARTED DISCOVERY!!!");
 
                 searchStatusTV.setText(R.string.searchBTdevices);
@@ -369,7 +358,7 @@ Broadcast Receiver to enable discovery of devices
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 Toast.makeText(ConnectBT.this, "Disconnected with  " + btConnectToDevice.getName(),
-                                        Toast.LENGTH_SHORT).show();
+                                        Toast.LENGTH_LONG).show();
                                 pairedDeviceTV.setText("");
                             }
                         });
@@ -378,6 +367,7 @@ Broadcast Receiver to enable discovery of devices
 
             //SUCCESSFULLY CONNECTED TO BLUETOOTH DEVICE
             else if (connectionStatus.equals("connect")) {
+
 
                 Log.d("ConnectAcitvity:", "Device Connected");
                 Toast.makeText(ConnectBT.this, "Connected to " + btConnectToDevice.getName(),
@@ -407,7 +397,6 @@ Broadcast Receiver to enable discovery of devices
             if (action.equals(BluetoothDevice.ACTION_FOUND)) {
 
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                // check if available devices in list so no duplicates
                 if(!bluetoothDevicesArrayList.contains(device)) {
                     if(!pairedBluetoothDevicesArrayList.contains(device)) {
                         bluetoothDevicesArrayList.add(device);
@@ -433,7 +422,7 @@ Broadcast Receiver to enable discovery of devices
 
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
-                // case1 - device bonded, bonded already
+                // device bonded
                 if (device.getBondState() == BluetoothDevice.BOND_BONDED) {
 
                     Log.d(TAG, "Bonded with: " + device.getName());
@@ -445,18 +434,20 @@ Broadcast Receiver to enable discovery of devices
                     btDevice = device;
                     chkPairedDevice();
                     newDevicesLV.setAdapter(deviceListAdapter);
-                    pairedDeviceTV.setText(device.getName());
 
                 }
-                // case2 - bond w device, creating a bond
+                // bond w device
                 if (device.getBondState() == BluetoothDevice.BOND_BONDING) {
                     Log.d(TAG, "Bonding with another device");
+
                     progressDialog = ProgressDialog.show(ConnectBT.this, "Bonding with device..", "Please Wait...", true);
 
 
                 }
-                // case3 - break bond between device, breaking a bond
+                // break bond between device
                 if (device.getBondState() == BluetoothDevice.BOND_NONE) {
+
+
                     progressDialog.dismiss();
 
                     //DIALOG MSG POPUP
@@ -487,16 +478,24 @@ Broadcast Receiver to enable discovery of devices
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            Log.d(TAG, "Receiving Msg..");
-
-            String msg = intent.getStringExtra("receivingMsg");
-            incomingMessageSB.append(msg + "\n");
-            incomingMessageTV.setText(incomingMessageSB);
+            Log.d(TAG, "Receiving Msg...");
+            try{
+                String msg = intent.getStringExtra("receivingMsg");
+                incomingMessageSB.append(msg + "\n");
+                //incomingMessageTV.setText(incomingMessageSB);
+                Toast.makeText(ConnectBT.this, msg,
+                        Toast.LENGTH_LONG).show();
+            }
+            catch (Exception e){
+                Toast.makeText(ConnectBT.this, "Test connection failed.",
+                        Toast.LENGTH_LONG).show();
+            }
 
         }
     };
 
     private void discoverabilityON() {
+
         // enable device discoverability for 900secs
         Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
         discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 900);
@@ -513,8 +512,6 @@ Broadcast Receiver to enable discovery of devices
         }
         // bluetooth not enabled
         if (!btAdapter.isEnabled()) {
-            Toast.makeText(ConnectBT.this, "Enabling bluetooth.",
-                    Toast.LENGTH_LONG).show();
             Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivity(enableBTIntent);
 
@@ -552,7 +549,7 @@ Broadcast Receiver to enable discovery of devices
     private void startDiscover() {
         Log.d(TAG, "btnDiscover: Looking for unpaired devices.");
 
-        //DISCOVER OTHER DEVICES, if currently discovering restart cancel and restart
+        //DISCOVER OTHER DEVICES
         if (btAdapter.isDiscovering()) {
             btAdapter.cancelDiscovery();
             Log.d(TAG, "BTDiscovery: canceling discovery");
@@ -631,8 +628,9 @@ Broadcast Receiver to enable discovery of devices
 
         Log.d(TAG, "All BroadcastReceiver unregistered");
     }
-    public void sendFastestPath (View view) {
-        String str = "FS|";
+
+    public void testConnection (View view) {
+        String str = "test";
         BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
     }
 }

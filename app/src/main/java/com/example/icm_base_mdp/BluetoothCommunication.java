@@ -1,5 +1,6 @@
 package com.example.icm_base_mdp;
 
+
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -12,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.Objects;
+
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 
@@ -79,12 +82,11 @@ public class BluetoothCommunication {
         String text = new String(bytes, Charset.defaultCharset());
 
         try {
-            // make a toast
-            Log.d(TAG, "Sending...: ");
             outPutStream.write(bytes);
         } catch (IOException | NullPointerException e) {
             // make a toast
-            Log.d(TAG, e.getMessage());
+            Log.d(TAG, Objects.requireNonNull(e.getMessage()));
+
         }
     }
 
