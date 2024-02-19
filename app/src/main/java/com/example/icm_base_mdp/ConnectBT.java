@@ -188,10 +188,10 @@ public class ConnectBT extends AppCompatActivity {
                 if (btDevice == null) {
 
                     Toast.makeText(ConnectBT.this, "No Paired Device! Please discover/select a device.",
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 } else if (btAdapter.getProfileConnectionState(BluetoothHeadset.HEADSET) == BluetoothHeadset.STATE_CONNECTED) {
                     Toast.makeText(ConnectBT.this, "Bluetooth Already Connected",
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 } else {
 
                     // start connect with device that is bonded
@@ -358,7 +358,7 @@ Broadcast Receiver to enable discovery of devices
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 Toast.makeText(ConnectBT.this, "Disconnected with  " + btConnectToDevice.getName(),
-                                        Toast.LENGTH_LONG).show();
+                                        Toast.LENGTH_SHORT).show();
                                 pairedDeviceTV.setText("");
                             }
                         });
@@ -484,11 +484,11 @@ Broadcast Receiver to enable discovery of devices
                 incomingMessageSB.append(msg + "\n");
                 //incomingMessageTV.setText(incomingMessageSB);
                 Toast.makeText(ConnectBT.this, msg,
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_SHORT).show();
             }
             catch (Exception e){
                 Toast.makeText(ConnectBT.this, "Test connection failed.",
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -507,7 +507,7 @@ Broadcast Receiver to enable discovery of devices
         // device does not support bluetooth
         if (btAdapter == null) {
             Toast.makeText(ConnectBT.this, "Device Does Not Support Bluetooth.",
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_SHORT).show();
             Log.d(TAG, "enableDisableBT: Does not have BT capabilities.");
         }
         // bluetooth not enabled

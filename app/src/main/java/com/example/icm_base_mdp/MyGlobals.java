@@ -6,6 +6,12 @@ public class MyGlobals {
     private static MyGlobals instance;
     private int global_number;
 
+    //
+    public int shutter_time = 0;
+    public int max_shutter_time = 60;
+    public int motor_time = 0;
+    public int max_motor_time = 60;
+
     private MyGlobals() {
         // Private constructor to prevent instantiation
     }
@@ -20,8 +26,8 @@ public class MyGlobals {
     public int get_global_number() {
         return global_number;
     }
-
     public void set_global_number(int value) {
         this.global_number = value;
     }
+
 }

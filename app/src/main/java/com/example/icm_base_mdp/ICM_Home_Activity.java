@@ -30,7 +30,7 @@ public class ICM_Home_Activity extends AppCompatActivity {
     BluetoothAdapter bluetoothAdapter;
     MyGlobals myGlobals;
     //View Components
-    Button camera_config_button;
+    Button camera_config_button,sync_button;
     TextView action_textview;
 
 
@@ -47,6 +47,14 @@ public class ICM_Home_Activity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        sync_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String str = "sync!";
+                BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+            }
+        });
     }
     //called during start up, initialize anything necessary
     private void init () {
@@ -55,9 +63,9 @@ public class ICM_Home_Activity extends AppCompatActivity {
         int initial_action_value = myGlobals.get_global_number();
         action_textview.setText(String.valueOf(initial_action_value));
         camera_config_button = findViewById(R.id.camera_config_button);
+        sync_button = findViewById(R.id.sync_button);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, new IntentFilter("IncomingMsg"));
     }
-
 
     /*
      * BLUETOOTH SECTION
@@ -73,11 +81,20 @@ public class ICM_Home_Activity extends AppCompatActivity {
                 myGlobals.set_global_number(value);
                 action_textview.setText(String.valueOf(value));
                 Toast.makeText(ICM_Home_Activity.this, "value " + value,
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_SHORT).show();
+            }
+            else if(Objects.equals(msg, "shutter_time=10")){
+                //decode the message
+                //now assume return shutter_time=value from pico
+                // Split the string by "="
+                String[] parts = msg.split("=");
+                myGlobals.shutter_time = Integer.parseInt(parts[1]);
+                Toast.makeText(ICM_Home_Activity.this, "synced!",
+                        Toast.LENGTH_SHORT).show();
             }
             else{
-                Toast.makeText(ICM_Home_Activity.this, msg,
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(ICM_Home_Activity.this, "try again...",
+                        Toast.LENGTH_SHORT).show();
             }
 
 
