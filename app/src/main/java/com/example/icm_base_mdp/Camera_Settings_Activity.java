@@ -8,9 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class Camera_Settings_Activity extends AppCompatActivity {
-    Button shutter_time_button;
-    Button motor_time_button;
-    Button excess_button;
+    Button shutter_time_button,motor_time_button,excess_button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +26,14 @@ public class Camera_Settings_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(Camera_Settings_Activity.this, Motor_Time_Activity.class);
+                startActivity(i);
+            }
+        });
+
+        excess_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Camera_Settings_Activity.this, Excess_Time_Activity.class);
                 startActivity(i);
             }
         });

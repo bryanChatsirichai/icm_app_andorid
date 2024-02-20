@@ -1,12 +1,19 @@
 package com.example.icm_base_mdp;
 
 
-//contains all the global variable get from pico
+//contains all the global variable should be same as pico upon syncing
 public class MyGlobals {
     private static MyGlobals instance;
-    private int global_number;
-
-    //
+    public int global_number = 0;
+    public int zoom_range = 0;
+    public int focus_range = 0;
+    public int zoom_current = 0;
+    public int focus_current = 0;
+    public int orientation = 0;
+    public int excess_option_set = 0; //default
+    public int camera_shutter_open = 0; //default 0 is not open
+    public int rear_rotation_direction = 0; //default
+    public int front_rotation_direction = 0; //default
     public int shutter_time = 0;
     public int max_shutter_time = 60;
     public int motor_time = 0;
@@ -21,13 +28,6 @@ public class MyGlobals {
             instance = new MyGlobals();
         }
         return instance;
-    }
-
-    public int get_global_number() {
-        return global_number;
-    }
-    public void set_global_number(int value) {
-        this.global_number = value;
     }
 
 }
