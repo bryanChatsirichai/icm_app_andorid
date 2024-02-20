@@ -15,7 +15,7 @@ public class Configuration_Menu_Activity extends AppCompatActivity {
     BluetoothAdapter bluetoothAdapter;
     MyGlobals myGlobals;
     //View Components
-    Button camera_setting_button,motor_calibration_button;
+    Button camera_setting_button,motor_calibration_button,options_button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,11 +35,19 @@ public class Configuration_Menu_Activity extends AppCompatActivity {
 
             }
         });
+        options_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Configuration_Menu_Activity.this, Options_Activity.class);
+                startActivity(i);
+            }
+        });
     }
     //called during start up, initialize anything necessary
     private void init () {
         myGlobals = MyGlobals.getInstance();
         camera_setting_button = findViewById(R.id.camera_setting_button);
         motor_calibration_button = findViewById(R.id.motor_calibration_button);
+        options_button = findViewById(R.id.options_button);
     }
 }
