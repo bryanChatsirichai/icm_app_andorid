@@ -13,51 +13,42 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-public class Options_Activity extends AppCompatActivity {
-    private static final String TAG = "Options_Time_Activity";
+public class Switch_zoom_focus_position_Activity extends AppCompatActivity {
+    private static final String TAG = "Switch_zoom_focus_position_Activity";
     // Bluetooth Connection
     BluetoothAdapter bluetoothAdapter;
-    Button options_switch_zf_button,options_rotation_button,options_reset_camera_button,options_reset_motor_Calibration_button;
+    Button position_zoom_at_the_back_button,position_zoom_at_the_front_button;
     MyGlobals myGlobals;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_options);
+        setContentView(R.layout.activity_switch_zoom_focus_position);
         init();
 
-        options_switch_zf_button.setOnClickListener(new View.OnClickListener() {
+        position_zoom_at_the_back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Options_Activity.this, Switch_zoom_focus_position_Activity.class);
-                startActivity(i);
+                //sending command to pico to sync the changes
+                //String str = "";
+                //BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+                //to set update upon reply from pico?
             }
         });
-        options_rotation_button.setOnClickListener(new View.OnClickListener() {
+        position_zoom_at_the_front_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-            }
-        });
-        options_reset_camera_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-        options_reset_motor_Calibration_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
+                //sending command to pico to sync the changes
+                //String str = "";
+                //BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+                //to set update upon reply from pico?
             }
         });
     }
     private void init () {
         myGlobals = MyGlobals.getInstance();
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        options_switch_zf_button = findViewById(R.id.options_switch_zf_button);
-        options_rotation_button = findViewById(R.id.options_rotation_button);
-        options_reset_camera_button = findViewById(R.id.options_reset_camera_button);
-        options_reset_motor_Calibration_button = findViewById(R.id.options_reset_motor_Calibration_button);
+        position_zoom_at_the_back_button = findViewById(R.id.position_zoom_at_the_back_button);
+        position_zoom_at_the_front_button = findViewById(R.id.position_zoom_at_the_front_button);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, new IntentFilter("IncomingMsg"));
 
     }
