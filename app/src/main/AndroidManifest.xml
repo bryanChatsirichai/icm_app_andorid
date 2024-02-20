@@ -24,6 +24,15 @@
         android:theme="@style/Theme.ICM_base_mdp"
         tools:targetApi="31">
         <activity
+            android:name=".Rotation_front_motor_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Rotation_rear_motor_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Rotation_Activity"
+            android:exported="false" />
+        <activity
             android:name=".Switch_zoom_focus_position_Activity"
             android:exported="false" />
         <activity

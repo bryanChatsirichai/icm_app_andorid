@@ -13,52 +13,37 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-public class Options_Activity extends AppCompatActivity {
-    private static final String TAG = "Options_Time_Activity";
+public class Rotation_Activity extends AppCompatActivity {
+    private static final String TAG = "Rotation_Activity";
     // Bluetooth Connection
     BluetoothAdapter bluetoothAdapter;
-    Button options_switch_zf_button,options_rotation_button,options_reset_camera_button,options_reset_motor_Calibration_button;
+    Button rotation_rear_motor_button,rotation_front_motor_button;
     MyGlobals myGlobals;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_options);
+        setContentView(R.layout.activity_rotation);
         init();
-
-        options_switch_zf_button.setOnClickListener(new View.OnClickListener() {
+        rotation_rear_motor_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Options_Activity.this, Switch_zoom_focus_position_Activity.class);
+                Intent i = new Intent(Rotation_Activity.this, Rotation_rear_motor_Activity.class);
                 startActivity(i);
             }
         });
-        options_rotation_button.setOnClickListener(new View.OnClickListener() {
+        rotation_front_motor_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Options_Activity.this, Rotation_Activity.class);
+                Intent i = new Intent(Rotation_Activity.this, Rotation_front_motor_Activity.class);
                 startActivity(i);
-            }
-        });
-        options_reset_camera_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-        options_reset_motor_Calibration_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
             }
         });
     }
     private void init () {
         myGlobals = MyGlobals.getInstance();
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        options_switch_zf_button = findViewById(R.id.options_switch_zf_button);
-        options_rotation_button = findViewById(R.id.options_rotation_button);
-        options_reset_camera_button = findViewById(R.id.options_reset_camera_button);
-        options_reset_motor_Calibration_button = findViewById(R.id.options_reset_motor_Calibration_button);
+        rotation_rear_motor_button = findViewById(R.id.rotation_rear_motor_0_button);
+        rotation_front_motor_button = findViewById(R.id.rotation_front_motor_button);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, new IntentFilter("IncomingMsg"));
 
     }
