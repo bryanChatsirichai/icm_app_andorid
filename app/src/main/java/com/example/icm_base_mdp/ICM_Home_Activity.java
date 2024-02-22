@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Objects;
 
 public class ICM_Home_Activity extends AppCompatActivity {
@@ -48,7 +49,7 @@ public class ICM_Home_Activity extends AppCompatActivity {
             public void onClick(View view) {
                 // to sync pico and app values, values fetch from pico.
                 // to do ....
-                String str = "sync!";
+                String str = "syncDevices";
                 BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             }
         });
@@ -71,38 +72,33 @@ public class ICM_Home_Activity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d(TAG, "Receiving Msg...");
-            String msg = intent.getStringExtra("receivingMsg");
-
+            //depending on the message, decode action an values to do
+            String pico_message = intent.getStringExtra("receivingMsg");
+            assert pico_message != null;
+            List<String> pico_message_parts_array = myGlobals.decode_pico_message(pico_message);
+            String functionName = pico_message_parts_array.get(0);
             // dummy action to test message send and reply
-            if(Objects.equals(msg, "Action1!")){
+            if(Objects.equals(functionName, "Action1")){
                 int value = myGlobals.global_number + 1;
                 myGlobals.global_number = value;
                 action_textview.setText(String.valueOf(value));
                 Toast.makeText(ICM_Home_Activity.this, "value " + value,
                         Toast.LENGTH_SHORT).show();
-            }
-            // dummy action to test message send and reply
-            else if(Objects.equals(msg, "shutter_time=10")){
-                //decode the message
-                //now assume return shutter_time=value from pico
-                // Split the string by "="
-                String[] parts = msg.split("=");
-                myGlobals.shutter_time = Integer.parseInt(parts[1]);
-                Toast.makeText(ICM_Home_Activity.this, "synced!",
+
+            } else if (Objects.equals(functionName, "syncDevices")) {
+                myGlobals.shutter_time =  Integer.parseInt(pico_message_parts_array.get(1));
+                myGlobals.max_shutter_time =  Integer.parseInt(pico_message_parts_array.get(2));
+                myGlobals.motor_time =  Integer.parseInt(pico_message_parts_array.get(3));
+                myGlobals.max_motor_time =  Integer.parseInt(pico_message_parts_array.get(4));
+                Toast.makeText(ICM_Home_Activity.this, "Synced Successful!",
                         Toast.LENGTH_SHORT).show();
             }
-            else{
-                Toast.makeText(ICM_Home_Activity.this, "try again...",
-                        Toast.LENGTH_SHORT).show();
-            }
-
-
         }
     };
 
     //dummy to be remove
     public void send_test_message(View v){
-        String str = "action1";
+        String str = "Action1";
         BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
     }
 

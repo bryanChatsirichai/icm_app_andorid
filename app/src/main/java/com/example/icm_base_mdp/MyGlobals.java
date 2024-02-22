@@ -1,5 +1,6 @@
 package com.example.icm_base_mdp;
-
+import java.util.ArrayList;
+import java.util.List;
 
 //contains all the global variable should be same as pico upon syncing
 public class MyGlobals {
@@ -15,9 +16,9 @@ public class MyGlobals {
     public int rear_rotation_direction = 0; //default
     public int front_rotation_direction = 0; //default
     public int shutter_time = 0;
-    public int max_shutter_time = 60;
+    public int max_shutter_time = 0;
     public int motor_time = 0;
-    public int max_motor_time = 60;
+    public int max_motor_time = 0;
 
     private MyGlobals() {
         // Private constructor to prevent instantiation
@@ -28,6 +29,21 @@ public class MyGlobals {
             instance = new MyGlobals();
         }
         return instance;
+    }
+
+    public  List<String> decode_pico_message(String input) {
+        List<String> parts = new ArrayList<>();
+
+        // Split the input string using '_' as delimiter
+        String[] tokens = input.split("_");
+
+        // Add each part to the list
+        for (String token : tokens) {
+            parts.add(token);
+        }
+        //functionName_param1_param2_
+        //parts -> [functionName_param1_param2,...,...]
+        return parts;
     }
 
 }

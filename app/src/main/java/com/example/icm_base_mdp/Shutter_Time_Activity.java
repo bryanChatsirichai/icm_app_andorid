@@ -14,6 +14,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.nio.charset.Charset;
+import java.util.List;
+import java.util.Objects;
 
 public class Shutter_Time_Activity extends AppCompatActivity {
     private static final String TAG = "Shutter_Time_Activity";
@@ -65,11 +70,12 @@ public class Shutter_Time_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //sending command to pico to sync the changes
-                //String str = "";
-                //BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
-                //to set update upon reply from pico?
+                String str = "setShutterTime";
                 myGlobals.shutter_time = temp_shutter_time;
                 shutter_time_bar.setProgress(temp_shutter_time);
+                String shutter_time_str = String.valueOf(myGlobals.shutter_time);
+                str = str + '_' + shutter_time_str;
+                BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             }
         });
     }
@@ -101,8 +107,14 @@ public class Shutter_Time_Activity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             Log.d(TAG, "Receiving Msg...");
             String msg = intent.getStringExtra("receivingMsg");
-            //depending on the message, decode action an values to do
-            //...
+            String pico_message = intent.getStringExtra("receivingMsg");
+            assert pico_message != null;
+            List<String> pico_message_parts_array = myGlobals.decode_pico_message(pico_message);
+            String functionName = pico_message_parts_array.get(0);
+            if(Objects.equals(functionName, "setShutterTime")){
+                Toast.makeText(Shutter_Time_Activity.this, "Set",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     };
 }
