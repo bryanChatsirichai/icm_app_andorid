@@ -86,10 +86,18 @@ public class ICM_Home_Activity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
 
             } else if (Objects.equals(functionName, "syncDevices")) {
-                myGlobals.shutter_time =  Integer.parseInt(pico_message_parts_array.get(1));
-                myGlobals.max_shutter_time =  Integer.parseInt(pico_message_parts_array.get(2));
-                myGlobals.motor_time =  Integer.parseInt(pico_message_parts_array.get(3));
-                myGlobals.max_motor_time =  Integer.parseInt(pico_message_parts_array.get(4));
+                myGlobals.focus_range = Integer.parseInt(pico_message_parts_array.get(1));
+                myGlobals.zoom_current = Integer.parseInt(pico_message_parts_array.get(2));
+                myGlobals.focus_current = Integer.parseInt(pico_message_parts_array.get(3));
+                myGlobals.zoom_current = Integer.parseInt(pico_message_parts_array.get(4));
+                myGlobals.orientation = Integer.parseInt(pico_message_parts_array.get(5));
+                myGlobals.shutter_time =  Integer.parseInt(pico_message_parts_array.get(6));
+                myGlobals.max_shutter_time =  Integer.parseInt(pico_message_parts_array.get(7));
+                myGlobals.motor_time =  Integer.parseInt(pico_message_parts_array.get(8));
+                myGlobals.max_motor_time =  Integer.parseInt(pico_message_parts_array.get(9));
+                myGlobals.excess_option_set =  Integer.parseInt(pico_message_parts_array.get(10));
+                myGlobals.rear_rotation_direction = Integer.parseInt(pico_message_parts_array.get(11));
+                myGlobals.front_rotation_direction =  Integer.parseInt(pico_message_parts_array.get(12));
                 Toast.makeText(ICM_Home_Activity.this, "Synced Successful!",
                         Toast.LENGTH_SHORT).show();
             }

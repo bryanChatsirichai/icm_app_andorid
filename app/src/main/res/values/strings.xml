@@ -11,4 +11,16 @@
     <string name="paired_devices">Paired devices:</string>
     <string name="available_devices">Available devices:</string>
 
+    <string name="shutter_time">Shutter Time(s): </string>
+    <string name="max_shutter_time">Max Shutter Time(s): </string>
+    <string name="motor_time">Motor Time(s): </string>
+    <string name="max_motor_time">Max Motor Time(s): </string>
+    <string name="excess_option_set">Excess Option: </string>
+    <string name="rear_rotation_direction">Rear motor Direction: </string>
+    <string name="front_rotation_direction">Front motor Direction: </string>
+    <string name="back_camera">Back Camera: </string>
+    <string name="front_camera">Front Camera: </string>
+    <string name="back_camera_rotation">Back Camera Rotation: </string>
+    <string name="front_camera_rotation">Front Camera Rotation: </string>
+
 </resources>

@@ -40,6 +40,7 @@ public class Configuration_Menu_Activity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(Configuration_Menu_Activity.this, Options_Activity.class);
                 startActivity(i);
+
             }
         });
     }

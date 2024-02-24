@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Camera_Settings_Activity">
+
+    <include layout="@layout/settings_header_layout"/>
     <TextView
         android:id="@+id/camera_setting_header"
         android:layout_width="wrap_content"

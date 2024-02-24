@@ -12,6 +12,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import java.nio.charset.Charset;
+import java.util.List;
+import java.util.Objects;
 
 public class Switch_zoom_focus_position_Activity extends AppCompatActivity {
     private static final String TAG = "Switch_zoom_focus_position_Activity";
@@ -28,19 +33,21 @@ public class Switch_zoom_focus_position_Activity extends AppCompatActivity {
         position_zoom_at_the_back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //sending command to pico to sync the changes
-                //String str = "";
-                //BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
-                //to set update upon reply from pico?
+                String str = "switchOrientation";
+                myGlobals.orientation = 0;
+                String orientation_str = String.valueOf(myGlobals.orientation);
+                str = str + '_' + orientation_str;
+                BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             }
         });
         position_zoom_at_the_front_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //sending command to pico to sync the changes
-                //String str = "";
-                //BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
-                //to set update upon reply from pico?
+                String str = "switchOrientation";
+                myGlobals.orientation = 1;
+                String orientation_str = String.valueOf(myGlobals.orientation);
+                str = str + '_' + orientation_str;
+                BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             }
         });
     }
@@ -50,16 +57,54 @@ public class Switch_zoom_focus_position_Activity extends AppCompatActivity {
         position_zoom_at_the_back_button = findViewById(R.id.position_zoom_at_the_back_button);
         position_zoom_at_the_front_button = findViewById(R.id.position_zoom_at_the_front_button);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, new IntentFilter("IncomingMsg"));
+        int orientation = myGlobals.orientation;
+        switch (orientation) {
+            case 0:
+                // code block
+                position_zoom_at_the_back_button.setText("Zoom at the Back - Selected");
+                position_zoom_at_the_front_button.setText("Zoom at the Front");
+                break;
+            case 1:
+                // code block
+                position_zoom_at_the_back_button.setText("Zoom at the Back");
+                position_zoom_at_the_front_button.setText("Zoom at the Front - Selected");
+                break;
 
+            // more cases as needed
+            default:
+                // code block executed if expression doesn't match any case
+        }
     }
     //BLUETOOTH SECTION, Receiving important command from RPI
     BroadcastReceiver messageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d(TAG, "Receiving Msg...");
-            String msg = intent.getStringExtra("receivingMsg");
-            //depending on the message, decode action an values to do
-            //...
+            String pico_message = intent.getStringExtra("receivingMsg");
+            assert pico_message != null;
+            List<String> pico_message_parts_array = myGlobals.decode_pico_message(pico_message);
+            String functionName = pico_message_parts_array.get(0);
+            if(Objects.equals(functionName, "switchOrientation")){
+                int orientation = myGlobals.orientation;
+                switch (orientation) {
+                    case 0:
+                        // code block
+                        position_zoom_at_the_back_button.setText("Zoom at the Back - Selected");
+                        position_zoom_at_the_front_button.setText("Zoom at the Front");
+                        break;
+                    case 1:
+                        // code block
+                        position_zoom_at_the_back_button.setText("Zoom at the Back");
+                        position_zoom_at_the_front_button.setText("Zoom at the Front - Selected");
+                        break;
+
+                    // more cases as needed
+                    default:
+                        // code block executed if expression doesn't match any case
+                }
+                Toast.makeText(Switch_zoom_focus_position_Activity.this, "Set",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     };
 }

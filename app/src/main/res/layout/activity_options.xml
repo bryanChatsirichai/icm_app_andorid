@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".Options_Activity">
 
+    <include layout="@layout/options_header_layout"/>
+
     <TextView
         android:id="@+id/options_header"
         android:layout_width="wrap_content"

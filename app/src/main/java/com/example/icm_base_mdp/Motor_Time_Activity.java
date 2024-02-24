@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Objects;
 
 public class Motor_Time_Activity extends AppCompatActivity {
@@ -67,11 +68,13 @@ public class Motor_Time_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //sending command to pico to sync the changes
-                //String str = "";
-                //BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
-                //to set update upon reply from pico?
+                String str = "setMotorTime";
                 myGlobals.motor_time = temp_motor_time;
                 motor_time_bar.setProgress(temp_motor_time);
+                String motor_time_str = String.valueOf(myGlobals.motor_time);
+                str = str + '_' + motor_time_str;
+                BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+
             }
         });
     }
@@ -102,9 +105,14 @@ public class Motor_Time_Activity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d(TAG, "Receiving Msg...");
-            String msg = intent.getStringExtra("receivingMsg");
-            //depending on the message, decode action an values to do
-            //...
+            String pico_message = intent.getStringExtra("receivingMsg");
+            assert pico_message != null;
+            List<String> pico_message_parts_array = myGlobals.decode_pico_message(pico_message);
+            String functionName = pico_message_parts_array.get(0);
+            if(Objects.equals(functionName, "setMotorTime")){
+                Toast.makeText(Motor_Time_Activity.this, "Set",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     };
 }
