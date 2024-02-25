@@ -13,6 +13,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.nio.charset.Charset;
+import java.util.List;
+import java.util.Objects;
 
 public class Options_Activity extends AppCompatActivity {
     private static final String TAG = "Options_Time_Activity";
@@ -47,13 +52,27 @@ public class Options_Activity extends AppCompatActivity {
         options_reset_camera_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //may need update the options header is in this page still, need set textview ...
+                String str = "resetCamera";
+                myGlobals.shutter_time = 0;
+                myGlobals.motor_time = 0;
+                myGlobals.excess_option_set = 0;
+                BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             }
         });
         options_reset_motor_Calibration_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //may need update the options header is in this page still, need set textview ...
+                String str = "resetMotorCalibration";
+                myGlobals.focus_range = 0;
+                myGlobals.zoom_range = 0;
+                myGlobals.focus_current = 0;
+                myGlobals.zoom_current = 0;
+                myGlobals.orientation = 0;
+                myGlobals.rear_rotation_direction = 0;
+                myGlobals.front_rotation_direction = 0;
+                BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             }
         });
     }
@@ -83,43 +102,43 @@ public class Options_Activity extends AppCompatActivity {
             // more cases as needed
             default:
                 // code block executed if expression doesn't match any case
-
-                //set the front_rotation header description, to fix CW or ACW when confirmed
-                switch (myGlobals.rear_rotation_direction) {
-                    case 0:
-                        // code block
-                        back_motor_rotation_text = getResources().getString(R.string.back_camera_rotation) + ' ' + Integer.toString(myGlobals.rear_rotation_direction);
-                        options_header_layout_backCamera_rotation_textview.setText(back_motor_rotation_text);
-                        break;
-                    case 1:
-                        // code block
-                        back_motor_rotation_text = getResources().getString(R.string.back_camera_rotation) + ' ' + Integer.toString(myGlobals.rear_rotation_direction);
-                        options_header_layout_backCamera_rotation_textview.setText(back_motor_rotation_text);
-
-                        break;
-                    // more cases as needed
-                    default:
-                        // code block executed if expression doesn't match any case
-                }
-                //set the front_rotation header description, to fix CW or ACW when confirmed
-                switch (myGlobals.front_rotation_direction) {
-                    case 0:
-                        // code block
-                        front_motor_rotation_text = getResources().getString(R.string.back_camera_rotation) + ' ' + myGlobals.front_rotation_direction;
-                        options_header_layout_frontCamera_rotation_textview.setText(front_motor_rotation_text);
-                        break;
-                    case 1:
-                        // code block
-                        front_motor_rotation_text = getResources().getString(R.string.back_camera_rotation) + ' ' + myGlobals.front_rotation_direction;
-                        options_header_layout_frontCamera_rotation_textview.setText(front_motor_rotation_text);
-
-
-                        break;
-                    // more cases as needed
-                    default:
-                        // code block executed if expression doesn't match any case
-                }
         }
+                //set the front_rotation header description, to fix CW or ACW when confirmed
+        switch (myGlobals.rear_rotation_direction) {
+            case 0:
+                // code block
+                back_motor_rotation_text = getResources().getString(R.string.back_camera_rotation) + ' ' + Integer.toString(myGlobals.rear_rotation_direction);
+                options_header_layout_backCamera_rotation_textview.setText(back_motor_rotation_text);
+                break;
+            case 1:
+                // code block
+                back_motor_rotation_text = getResources().getString(R.string.back_camera_rotation) + ' ' + Integer.toString(myGlobals.rear_rotation_direction);
+                options_header_layout_backCamera_rotation_textview.setText(back_motor_rotation_text);
+
+                break;
+            // more cases as needed
+            default:
+                // code block executed if expression doesn't match any case
+        }
+            //set the front_rotation header description, to fix CW or ACW when confirmed
+        switch (myGlobals.front_rotation_direction) {
+            case 0:
+                // code block
+                front_motor_rotation_text = getResources().getString(R.string.back_camera_rotation) + ' ' + myGlobals.front_rotation_direction;
+                options_header_layout_frontCamera_rotation_textview.setText(front_motor_rotation_text);
+                break;
+            case 1:
+                // code block
+                front_motor_rotation_text = getResources().getString(R.string.back_camera_rotation) + ' ' + myGlobals.front_rotation_direction;
+                options_header_layout_frontCamera_rotation_textview.setText(front_motor_rotation_text);
+
+
+                break;
+            // more cases as needed
+            default:
+                // code block executed if expression doesn't match any case
+        }
+
     }
     private void init () {
         myGlobals = MyGlobals.getInstance();
@@ -202,9 +221,20 @@ public class Options_Activity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d(TAG, "Receiving Msg...");
-            String msg = intent.getStringExtra("receivingMsg");
-            //depending on the message, decode action an values to do
-            //...
+            String pico_message = intent.getStringExtra("receivingMsg");
+            assert pico_message != null;
+            List<String> pico_message_parts_array = myGlobals.decode_pico_message(pico_message);
+            String functionName = pico_message_parts_array.get(0);
+            if(Objects.equals(functionName, "resetCamera")){
+                Toast.makeText(Options_Activity.this, "Camera Setting Reset!",
+                        Toast.LENGTH_SHORT).show();
+            }
+            else if(Objects.equals(functionName, "resetMotorCalibration")){
+                // Inside your activity
+                recreate();
+                Toast.makeText(Options_Activity.this, "Motor Calibration Reset!",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     };
 }
