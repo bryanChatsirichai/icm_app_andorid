@@ -32,7 +32,8 @@ public class Configuration_Menu_Activity extends AppCompatActivity {
         motor_calibration_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent i = new Intent(Configuration_Menu_Activity.this, Motor_Calibration_Activity.class);
+                startActivity(i);
             }
         });
         options_button.setOnClickListener(new View.OnClickListener() {

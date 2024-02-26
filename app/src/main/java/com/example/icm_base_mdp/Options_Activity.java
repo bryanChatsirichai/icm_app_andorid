@@ -72,6 +72,7 @@ public class Options_Activity extends AppCompatActivity {
                 myGlobals.orientation = 0;
                 myGlobals.rear_rotation_direction = 0;
                 myGlobals.front_rotation_direction = 0;
+                updatePage();
                 BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             }
         });
@@ -152,6 +153,33 @@ public class Options_Activity extends AppCompatActivity {
         options_header_layout_backCamera_rotation_textview = findViewById(R.id.options_header_layout_backCamera_rotation_textview);
         options_header_layout_frontCamera_rotation_textview = findViewById(R.id.options_header_layout_frontCamera_rotation_textview);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, new IntentFilter("IncomingMsg"));
+        updatePage();
+    }
+
+
+    //BLUETOOTH SECTION, Receiving important command from RPI
+    BroadcastReceiver messageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(TAG, "Receiving Msg...");
+            String pico_message = intent.getStringExtra("receivingMsg");
+            assert pico_message != null;
+            List<String> pico_message_parts_array = myGlobals.decode_pico_message(pico_message);
+            String functionName = pico_message_parts_array.get(0);
+            if(Objects.equals(functionName, "resetCamera")){
+                Toast.makeText(Options_Activity.this, "Camera Setting Reset!",
+                        Toast.LENGTH_SHORT).show();
+            }
+            else if(Objects.equals(functionName, "resetMotorCalibration")){
+                // Inside your activity
+                recreate();
+                Toast.makeText(Options_Activity.this, "Motor Calibration Reset!",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+    private void updatePage(){
         String back_motor_text = "";
         String front_motor_text = "";
         String back_motor_rotation_text = "";
@@ -214,27 +242,4 @@ public class Options_Activity extends AppCompatActivity {
                 // code block executed if expression doesn't match any case
         }
     }
-
-
-    //BLUETOOTH SECTION, Receiving important command from RPI
-    BroadcastReceiver messageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.d(TAG, "Receiving Msg...");
-            String pico_message = intent.getStringExtra("receivingMsg");
-            assert pico_message != null;
-            List<String> pico_message_parts_array = myGlobals.decode_pico_message(pico_message);
-            String functionName = pico_message_parts_array.get(0);
-            if(Objects.equals(functionName, "resetCamera")){
-                Toast.makeText(Options_Activity.this, "Camera Setting Reset!",
-                        Toast.LENGTH_SHORT).show();
-            }
-            else if(Objects.equals(functionName, "resetMotorCalibration")){
-                // Inside your activity
-                recreate();
-                Toast.makeText(Options_Activity.this, "Motor Calibration Reset!",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-    };
 }

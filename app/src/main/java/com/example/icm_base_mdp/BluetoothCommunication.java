@@ -57,6 +57,7 @@ public class BluetoothCommunication {
                 Intent incomingMsgIntent = new Intent("IncomingMsg");
                 incomingMsgIntent.putExtra("receivingMsg", incomingMessage);
                 LocalBroadcastManager.getInstance(mmContext).sendBroadcast(incomingMsgIntent);
+                buffer = new byte[1024];
 
             } catch (IOException e) {
 

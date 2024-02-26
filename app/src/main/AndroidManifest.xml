@@ -24,6 +24,15 @@
         android:theme="@style/Theme.ICM_base_mdp"
         tools:targetApi="31">
         <activity
+            android:name=".Focus_Calibration_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Zoom_Calibration_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Motor_Calibration_Activity"
+            android:exported="false" />
+        <activity
             android:name=".Rotation_front_motor_Activity"
             android:exported="false" />
         <activity
