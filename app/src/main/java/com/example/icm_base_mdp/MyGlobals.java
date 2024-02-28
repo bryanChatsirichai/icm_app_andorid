@@ -19,6 +19,7 @@ public class MyGlobals {
     public int max_shutter_time = 0;
     public int motor_time = 0;
     public int max_motor_time = 0;
+    public int MOTOR_STEPS = 0;
 
     private MyGlobals() {
         // Private constructor to prevent instantiation

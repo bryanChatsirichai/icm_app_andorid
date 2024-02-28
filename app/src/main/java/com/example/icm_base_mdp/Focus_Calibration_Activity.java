@@ -28,9 +28,11 @@ public class Focus_Calibration_Activity extends AppCompatActivity {
     Button focus_calibration_decrease_button,focus_calibration_increase_button,focus_calibration_set_button;
     TextView focus_calibration_max_rotation_textview,focus_calibration_current_step_textview,focus_calibration_direction_textview;
     MyGlobals myGlobals;
-    private  int MOTOR_STEPS = 200; //maybe can sync with pico tru bluetooth instead hardcode
+
     //two parts set min then max to get range, first time min, second time max
     private  boolean firstTime = true;
+    private  boolean negative = true;
+
     private int temp_current_steps = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class Focus_Calibration_Activity extends AppCompatActivity {
         focus_calibration_decrease_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(temp_current_steps - 1 < -MOTOR_STEPS){
+                if(temp_current_steps - 1 < -myGlobals.MOTOR_STEPS){
                     //do nothing
                     return;
                 }
@@ -50,19 +52,21 @@ public class Focus_Calibration_Activity extends AppCompatActivity {
                     return;
                 }
                 else{
-                    temp_current_steps = temp_current_steps - 1;
                     if(temp_current_steps < 0){
                         //invert it
-                        focus_calibration_bar.setProgress(-temp_current_steps);
-                        String text_str = temp_current_steps + " steps";
-                        focus_calibration_current_step_textview.setText(text_str);
+                        //invert it
+                        negative = true;
+                        //focus_calibration_bar.setProgress(-temp_current_steps);
+                        //String text_str = temp_current_steps + " steps";
+                        //focus_calibration_current_step_textview.setText(text_str);
                         String str = "focusMoveMin";
                         BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
                     }
                     else{
-                        focus_calibration_bar.setProgress(temp_current_steps);
-                        String text_str = temp_current_steps + " steps";
-                        focus_calibration_current_step_textview.setText(text_str);
+                        negative = false;
+                        //focus_calibration_bar.setProgress(temp_current_steps);
+                        //String text_str = temp_current_steps + " steps";
+                        //focus_calibration_current_step_textview.setText(text_str);
                         String str = "focusMoveMin";
                         BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
 
@@ -74,24 +78,25 @@ public class Focus_Calibration_Activity extends AppCompatActivity {
         focus_calibration_increase_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(temp_current_steps + 1 > MOTOR_STEPS){
+                if(temp_current_steps + 1 > myGlobals.MOTOR_STEPS){
                     //do nothing
                     return;
                 }
                 else{
-                    temp_current_steps = temp_current_steps + 1;
                     if(temp_current_steps < 0){
                         //invert it
-                        focus_calibration_bar.setProgress(-temp_current_steps);
-                        String text_str = temp_current_steps + " steps";
-                        focus_calibration_current_step_textview.setText(text_str);
+                        negative = true;
+                        //focus_calibration_bar.setProgress(-temp_current_steps);
+                        //String text_str = temp_current_steps + " steps";
+                        //focus_calibration_current_step_textview.setText(text_str);
                         String str = "focusMoveMax";
                         BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
                     }
                     else{
-                        focus_calibration_bar.setProgress(temp_current_steps);
-                        String text_str = temp_current_steps + " steps";
-                        focus_calibration_current_step_textview.setText(text_str);
+                        negative = false;
+                        //focus_calibration_bar.setProgress(temp_current_steps);
+                        //String text_str = temp_current_steps + " steps";
+                        //focus_calibration_current_step_textview.setText(text_str);
                         String str = "focusMoveMax";
                         BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
 
@@ -107,15 +112,15 @@ public class Focus_Calibration_Activity extends AppCompatActivity {
 
                     //after set to minimum ask for maximum
                     //minimum is the new 0
-                    firstTime = false;
-                    focus_calibration_direction_textview.setText("Set to max");
-                    temp_current_steps = 0;
-                    focus_calibration_bar.setProgress(temp_current_steps);
-                    String text_str = temp_current_steps + " steps";
-                    focus_calibration_current_step_textview.setText(text_str);
+                    //firstTime = false;
+                    //focus_calibration_direction_textview.setText("Set to max");
+                    //temp_current_steps = 0;
+                    //focus_calibration_bar.setProgress(temp_current_steps);
+                    //String text_str = temp_current_steps + " steps";
+                    //focus_calibration_current_step_textview.setText(text_str);
                     // maybe no need send message
-                    //String str = "focusSetMin";
-                    //BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+                    String str = "focusSetMin";
+                    BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
                 }
                 else{
                     myGlobals.focus_current = temp_current_steps / 2;
@@ -144,7 +149,10 @@ public class Focus_Calibration_Activity extends AppCompatActivity {
         //initial set to maximum
         myGlobals.focus_current = 0;
         myGlobals.focus_range = 0;
+        String text = "1 Rotation " +  String.valueOf(myGlobals.MOTOR_STEPS) + " steps";
+        focus_calibration_max_rotation_textview.setText(text);
         focus_calibration_direction_textview.setText("Set to minimum");
+        focus_calibration_bar.setMax(myGlobals.MOTOR_STEPS);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, new IntentFilter("IncomingMsg"));
 
 
@@ -158,7 +166,46 @@ public class Focus_Calibration_Activity extends AppCompatActivity {
             assert pico_message != null;
             List<String> pico_message_parts_array = myGlobals.decode_pico_message(pico_message);
             String functionName = pico_message_parts_array.get(0);
-            if(Objects.equals(functionName, "focusSetMin")){
+            if(Objects.equals(functionName, "focusMoveMin")){
+                temp_current_steps = temp_current_steps - 1;
+                if(negative){
+                    focus_calibration_bar.setProgress(-temp_current_steps);
+                    String text_str = temp_current_steps + " steps";
+                    focus_calibration_current_step_textview.setText(text_str);
+                }
+                else{
+                    focus_calibration_bar.setProgress(temp_current_steps);
+                    String text_str = temp_current_steps + " steps";
+                    focus_calibration_current_step_textview.setText(text_str);
+                }
+                Toast.makeText(Focus_Calibration_Activity.this, "Moved",
+                        Toast.LENGTH_SHORT).show();
+            }
+            else if(Objects.equals(functionName, "focusMoveMax")){
+                temp_current_steps = temp_current_steps + 1;
+                if(negative){
+                    focus_calibration_bar.setProgress(-temp_current_steps);
+                    String text_str = temp_current_steps + " steps";
+                    focus_calibration_current_step_textview.setText(text_str);
+                }
+                else{
+                    focus_calibration_bar.setProgress(temp_current_steps);
+                    String text_str = temp_current_steps + " steps";
+                    focus_calibration_current_step_textview.setText(text_str);
+                }
+                Toast.makeText(Focus_Calibration_Activity.this, "Moved",
+                        Toast.LENGTH_SHORT).show();
+            }
+            else if(Objects.equals(functionName, "focusSetMin")){
+                if(firstTime){
+                    //swap to setting max range
+                    firstTime = false;
+                    focus_calibration_direction_textview.setText("Set to max");
+                    temp_current_steps = 0;
+                    focus_calibration_bar.setProgress(temp_current_steps);
+                    String text_str = temp_current_steps + " steps";
+                    focus_calibration_current_step_textview.setText(text_str);
+                }
                 Toast.makeText(Focus_Calibration_Activity.this, "Set",
                         Toast.LENGTH_SHORT).show();
             }

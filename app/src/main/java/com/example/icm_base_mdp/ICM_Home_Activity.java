@@ -87,7 +87,7 @@ public class ICM_Home_Activity extends AppCompatActivity {
 
             } else if (Objects.equals(functionName, "syncDevices")) {
                 myGlobals.focus_range = Integer.parseInt(pico_message_parts_array.get(1));
-                myGlobals.zoom_current = Integer.parseInt(pico_message_parts_array.get(2));
+                myGlobals.zoom_range = Integer.parseInt(pico_message_parts_array.get(2));
                 myGlobals.focus_current = Integer.parseInt(pico_message_parts_array.get(3));
                 myGlobals.zoom_current = Integer.parseInt(pico_message_parts_array.get(4));
                 myGlobals.orientation = Integer.parseInt(pico_message_parts_array.get(5));
@@ -98,6 +98,7 @@ public class ICM_Home_Activity extends AppCompatActivity {
                 myGlobals.excess_option_set =  Integer.parseInt(pico_message_parts_array.get(10));
                 myGlobals.rear_rotation_direction = Integer.parseInt(pico_message_parts_array.get(11));
                 myGlobals.front_rotation_direction =  Integer.parseInt(pico_message_parts_array.get(12));
+                myGlobals.MOTOR_STEPS = Integer.parseInt(pico_message_parts_array.get(13));
                 Toast.makeText(ICM_Home_Activity.this, "Synced Successful!",
                         Toast.LENGTH_SHORT).show();
             }

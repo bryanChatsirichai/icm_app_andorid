@@ -29,10 +29,10 @@ public class Zoom_Calibration_Activity extends AppCompatActivity {
     Button zoom_calibration_decrease_button,zoom_calibration_increase_button,zoom_calibration_set_button;
     TextView zoom_calibration_max_rotation_textview,zoom_calibration_current_step_textview,zoom_calibration_direction_textview;
     MyGlobals myGlobals;
-    private  int MOTOR_STEPS = 200; //maybe can sync with pico tru bluetooth instead hardcode
 
     //two parts set min then max to get range, first time min, second time max
     private  boolean firstTime = true;
+    private  boolean negative = true;
     private int temp_current_steps = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class Zoom_Calibration_Activity extends AppCompatActivity {
         zoom_calibration_decrease_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(temp_current_steps - 1 < -MOTOR_STEPS){
+                if(temp_current_steps - 1 < -myGlobals.MOTOR_STEPS){
                     //do nothing
                      return;
                 }
@@ -52,19 +52,21 @@ public class Zoom_Calibration_Activity extends AppCompatActivity {
                     return;
                 }
                 else{
-                    temp_current_steps = temp_current_steps - 1;
+                    //temp_current_steps = temp_current_steps - 1;
                     if(temp_current_steps < 0){
                         //invert it
-                        zoom_calibration_bar.setProgress(-temp_current_steps);
-                        String text_str = temp_current_steps + " steps";
-                        zoom_calibration_current_step_textview.setText(text_str);
+                        negative = true;
+                        //zoom_calibration_bar.setProgress(-temp_current_steps);
+                        //String text_str = temp_current_steps + " steps";
+                        //zoom_calibration_current_step_textview.setText(text_str);
                         String str = "zoomMoveMin";
                         BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
                     }
                     else{
-                        zoom_calibration_bar.setProgress(temp_current_steps);
-                        String text_str = temp_current_steps + " steps";
-                        zoom_calibration_current_step_textview.setText(text_str);
+                        negative = false;
+                        //zoom_calibration_bar.setProgress(temp_current_steps);
+                        //String text_str = temp_current_steps + " steps";
+                        //zoom_calibration_current_step_textview.setText(text_str);
                         String str = "zoomMoveMin";
                         BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
 
@@ -76,24 +78,25 @@ public class Zoom_Calibration_Activity extends AppCompatActivity {
         zoom_calibration_increase_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(temp_current_steps + 1 > MOTOR_STEPS){
+                if(temp_current_steps + 1 > myGlobals.MOTOR_STEPS){
                     //do nothing
                     return;
                 }
                 else{
-                    temp_current_steps = temp_current_steps + 1;
                     if(temp_current_steps < 0){
                         //invert it
-                        zoom_calibration_bar.setProgress(-temp_current_steps);
-                        String text_str = temp_current_steps + " steps";
-                        zoom_calibration_current_step_textview.setText(text_str);
+                        negative = true;
+                        //zoom_calibration_bar.setProgress(-temp_current_steps);
+                        //String text_str = temp_current_steps + " steps";
+                        //zoom_calibration_current_step_textview.setText(text_str);
                         String str = "zoomMoveMax";
                         BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
                     }
                     else{
-                        zoom_calibration_bar.setProgress(temp_current_steps);
-                        String text_str = temp_current_steps + " steps";
-                        zoom_calibration_current_step_textview.setText(text_str);
+                        negative = false;
+                        //zoom_calibration_bar.setProgress(temp_current_steps);
+                        //String text_str = temp_current_steps + " steps";
+                        //zoom_calibration_current_step_textview.setText(text_str);
                         String str = "zoomMoveMax";
                         BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
 
@@ -109,15 +112,15 @@ public class Zoom_Calibration_Activity extends AppCompatActivity {
 
                     //after set to minimum ask for maximum
                     //minimum is the new 0
-                    firstTime = false;
-                    zoom_calibration_direction_textview.setText("Set to max");
-                    temp_current_steps = 0;
-                    zoom_calibration_bar.setProgress(temp_current_steps);
-                    String text_str = temp_current_steps + " steps";
-                    zoom_calibration_current_step_textview.setText(text_str);
+                    //firstTime = false;
+                    //zoom_calibration_direction_textview.setText("Set to max");
+                    //temp_current_steps = 0;
+                    //zoom_calibration_bar.setProgress(temp_current_steps);
+                    //String text_str = temp_current_steps + " steps";
+                    //zoom_calibration_current_step_textview.setText(text_str);
                     // maybe no need send message
-                    //String str = "zoomSetMin";
-                    //BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+                     String str = "zoomSetMin";
+                     BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
                 }
                 else{
                     myGlobals.zoom_current = temp_current_steps / 2;
@@ -126,7 +129,6 @@ public class Zoom_Calibration_Activity extends AppCompatActivity {
                     String str = "zoomSetMax";
                     str = str + "_" + String.valueOf(myGlobals.zoom_current) + '_' + String.valueOf(myGlobals.zoom_range);
                     BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
-
                 }
             }
         });
@@ -146,7 +148,10 @@ public class Zoom_Calibration_Activity extends AppCompatActivity {
         //initial set to maximum
         myGlobals.zoom_current = 0;
         myGlobals.zoom_range = 0;
+        String text = "1 Rotation " +  String.valueOf(myGlobals.MOTOR_STEPS) + " steps";
+        zoom_calibration_max_rotation_textview.setText(text);
         zoom_calibration_direction_textview.setText("Set to minimum");
+        zoom_calibration_bar.setMax(myGlobals.MOTOR_STEPS);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, new IntentFilter("IncomingMsg"));
 
 
@@ -160,7 +165,46 @@ public class Zoom_Calibration_Activity extends AppCompatActivity {
             assert pico_message != null;
             List<String> pico_message_parts_array = myGlobals.decode_pico_message(pico_message);
             String functionName = pico_message_parts_array.get(0);
-            if(Objects.equals(functionName, "zoomSetMin")){
+            if(Objects.equals(functionName, "zoomMoveMin")){
+                temp_current_steps = temp_current_steps - 1;
+                if(negative){
+                    zoom_calibration_bar.setProgress(-temp_current_steps);
+                    String text_str = temp_current_steps + " steps";
+                    zoom_calibration_current_step_textview.setText(text_str);
+                }
+                else{
+                    zoom_calibration_bar.setProgress(temp_current_steps);
+                    String text_str = temp_current_steps + " steps";
+                    zoom_calibration_current_step_textview.setText(text_str);
+                }
+                Toast.makeText(Zoom_Calibration_Activity.this, "Moved",
+                        Toast.LENGTH_SHORT).show();
+            }
+            else if(Objects.equals(functionName, "zoomMoveMax")){
+                temp_current_steps = temp_current_steps + 1;
+                if(negative){
+                    zoom_calibration_bar.setProgress(-temp_current_steps);
+                    String text_str = temp_current_steps + " steps";
+                    zoom_calibration_current_step_textview.setText(text_str);
+                }
+                else{
+                    zoom_calibration_bar.setProgress(temp_current_steps);
+                    String text_str = temp_current_steps + " steps";
+                    zoom_calibration_current_step_textview.setText(text_str);
+                }
+                Toast.makeText(Zoom_Calibration_Activity.this, "Moved",
+                        Toast.LENGTH_SHORT).show();
+            }
+            else if(Objects.equals(functionName, "zoomSetMin")){
+                if(firstTime){
+                    //swap to setting max range
+                    firstTime = false;
+                    zoom_calibration_direction_textview.setText("Set to max");
+                    temp_current_steps = 0;
+                    zoom_calibration_bar.setProgress(temp_current_steps);
+                    String text_str = temp_current_steps + " steps";
+                    zoom_calibration_current_step_textview.setText(text_str);
+                }
                 Toast.makeText(Zoom_Calibration_Activity.this, "Set",
                         Toast.LENGTH_SHORT).show();
             }

@@ -58,7 +58,7 @@
         android:id="@+id/focus_calibration_max_rotation_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1 Rotation  200 steps"
+        android:text="1 Rotation x steps"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.17"

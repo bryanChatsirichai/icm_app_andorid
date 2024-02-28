@@ -37,7 +37,8 @@ public class Motor_Calibration_Activity extends AppCompatActivity {
         motor_calibration_pov_cali_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent i = new Intent(Motor_Calibration_Activity.this, Pov_Calibration_Activity.class);
+                startActivity(i);
             }
         });
     }
