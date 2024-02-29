@@ -72,7 +72,8 @@ public class Options_Activity extends AppCompatActivity {
                 //myGlobals.orientation = 0;
                 //myGlobals.rear_rotation_direction = 0;
                 //myGlobals.front_rotation_direction = 0;
-                updatePage();
+                //updatePage();
+                refreshHeader();
                 BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             }
         });
@@ -80,65 +81,66 @@ public class Options_Activity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        String back_motor_text = "";
-        String front_motor_text = "";
-        String back_motor_rotation_text = "";
-        String front_motor_rotation_text = "";
-        switch (myGlobals.orientation) {
-            case 0:
-                // code block
-                back_motor_text = getResources().getString(R.string.back_camera) + ' ' + "Zoom";
-                front_motor_text = getResources().getString(R.string.front_camera) + ' ' + "Focus";
-                options_header_layout_backCamera_textview.setText(back_motor_text);
-                options_header_layout_frontCamera_textview.setText(front_motor_text);
-                break;
-            case 1:
-                // code block
-                back_motor_text = getResources().getString(R.string.back_camera) + ' ' + "Focus";
-                front_motor_text = getResources().getString(R.string.front_camera) + ' ' + "Zoom";
-                options_header_layout_backCamera_textview.setText(back_motor_text);
-                options_header_layout_frontCamera_textview.setText(front_motor_text);
-                break;
-
-            // more cases as needed
-            default:
-                // code block executed if expression doesn't match any case
-        }
-                //set the front_rotation header description, to fix CW or ACW when confirmed
-        switch (myGlobals.rear_rotation_direction) {
-            case 0:
-                // code block
-                back_motor_rotation_text = getResources().getString(R.string.back_camera_rotation) + ' ' + Integer.toString(myGlobals.rear_rotation_direction);
-                options_header_layout_backCamera_rotation_textview.setText(back_motor_rotation_text);
-                break;
-            case 1:
-                // code block
-                back_motor_rotation_text = getResources().getString(R.string.back_camera_rotation) + ' ' + Integer.toString(myGlobals.rear_rotation_direction);
-                options_header_layout_backCamera_rotation_textview.setText(back_motor_rotation_text);
-
-                break;
-            // more cases as needed
-            default:
-                // code block executed if expression doesn't match any case
-        }
-            //set the front_rotation header description, to fix CW or ACW when confirmed
-        switch (myGlobals.front_rotation_direction) {
-            case 0:
-                // code block
-                front_motor_rotation_text = getResources().getString(R.string.back_camera_rotation) + ' ' + myGlobals.front_rotation_direction;
-                options_header_layout_frontCamera_rotation_textview.setText(front_motor_rotation_text);
-                break;
-            case 1:
-                // code block
-                front_motor_rotation_text = getResources().getString(R.string.back_camera_rotation) + ' ' + myGlobals.front_rotation_direction;
-                options_header_layout_frontCamera_rotation_textview.setText(front_motor_rotation_text);
-
-
-                break;
-            // more cases as needed
-            default:
-                // code block executed if expression doesn't match any case
-        }
+        refreshHeader();
+//        String back_motor_text = "";
+//        String front_motor_text = "";
+//        String back_motor_rotation_text = "";
+//        String front_motor_rotation_text = "";
+//        switch (myGlobals.orientation) {
+//            case 0:
+//                // code block
+//                back_motor_text = getResources().getString(R.string.back_camera) + ' ' + "Zoom";
+//                front_motor_text = getResources().getString(R.string.front_camera) + ' ' + "Focus";
+//                options_header_layout_backCamera_textview.setText(back_motor_text);
+//                options_header_layout_frontCamera_textview.setText(front_motor_text);
+//                break;
+//            case 1:
+//                // code block
+//                back_motor_text = getResources().getString(R.string.back_camera) + ' ' + "Focus";
+//                front_motor_text = getResources().getString(R.string.front_camera) + ' ' + "Zoom";
+//                options_header_layout_backCamera_textview.setText(back_motor_text);
+//                options_header_layout_frontCamera_textview.setText(front_motor_text);
+//                break;
+//
+//            // more cases as needed
+//            default:
+//                // code block executed if expression doesn't match any case
+//        }
+//                //set the front_rotation header description, to fix CW or ACW when confirmed
+//        switch (myGlobals.rear_rotation_direction) {
+//            case 0:
+//                // code block
+//                back_motor_rotation_text = getResources().getString(R.string.back_camera_rotation) + ' ' + Integer.toString(myGlobals.rear_rotation_direction);
+//                options_header_layout_backCamera_rotation_textview.setText(back_motor_rotation_text);
+//                break;
+//            case 1:
+//                // code block
+//                back_motor_rotation_text = getResources().getString(R.string.back_camera_rotation) + ' ' + Integer.toString(myGlobals.rear_rotation_direction);
+//                options_header_layout_backCamera_rotation_textview.setText(back_motor_rotation_text);
+//
+//                break;
+//            // more cases as needed
+//            default:
+//                // code block executed if expression doesn't match any case
+//        }
+//            //set the front_rotation header description, to fix CW or ACW when confirmed
+//        switch (myGlobals.front_rotation_direction) {
+//            case 0:
+//                // code block
+//                front_motor_rotation_text = getResources().getString(R.string.front_rotation_direction) + ' ' + myGlobals.front_rotation_direction;
+//                options_header_layout_frontCamera_rotation_textview.setText(front_motor_rotation_text);
+//                break;
+//            case 1:
+//                // code block
+//                front_motor_rotation_text = getResources().getString(R.string.front_camera_rotation) + ' ' + myGlobals.front_rotation_direction;
+//                options_header_layout_frontCamera_rotation_textview.setText(front_motor_rotation_text);
+//
+//
+//                break;
+//            // more cases as needed
+//            default:
+//                // code block executed if expression doesn't match any case
+//        }
 
     }
     private void init () {
@@ -153,7 +155,7 @@ public class Options_Activity extends AppCompatActivity {
         options_header_layout_backCamera_rotation_textview = findViewById(R.id.options_header_layout_backCamera_rotation_textview);
         options_header_layout_frontCamera_rotation_textview = findViewById(R.id.options_header_layout_frontCamera_rotation_textview);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, new IntentFilter("IncomingMsg"));
-        updatePage();
+        refreshHeader();
     }
 
 
@@ -189,7 +191,7 @@ public class Options_Activity extends AppCompatActivity {
         }
     };
 
-    private void updatePage(){
+    private void refreshHeader(){
         String back_motor_text = "";
         String front_motor_text = "";
         String back_motor_rotation_text = "";
@@ -237,12 +239,12 @@ public class Options_Activity extends AppCompatActivity {
         switch (myGlobals.front_rotation_direction) {
             case 0:
                 // code block
-                front_motor_rotation_text = getResources().getString(R.string.back_camera_rotation) + ' ' + myGlobals.front_rotation_direction;
+                front_motor_rotation_text = getResources().getString(R.string.front_camera_rotation) + ' ' + myGlobals.front_rotation_direction;
                 options_header_layout_frontCamera_rotation_textview.setText(front_motor_rotation_text);
                 break;
             case 1:
                 // code block
-                front_motor_rotation_text = getResources().getString(R.string.back_camera_rotation) + ' ' + myGlobals.front_rotation_direction;
+                front_motor_rotation_text = getResources().getString(R.string.front_camera_rotation) + ' ' + myGlobals.front_rotation_direction;
                 options_header_layout_frontCamera_rotation_textview.setText(front_motor_rotation_text);
 
 
