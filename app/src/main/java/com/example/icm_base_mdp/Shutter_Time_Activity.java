@@ -71,9 +71,7 @@ public class Shutter_Time_Activity extends AppCompatActivity {
             public void onClick(View view) {
                 //sending command to pico to sync the changes
                 String str = "setShutterTime";
-                myGlobals.shutter_time = temp_shutter_time;
-                shutter_time_bar.setProgress(temp_shutter_time);
-                String shutter_time_str = String.valueOf(myGlobals.shutter_time);
+                String shutter_time_str = String.valueOf(temp_shutter_time);
                 str = str + '_' + shutter_time_str;
                 BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             }
@@ -112,6 +110,8 @@ public class Shutter_Time_Activity extends AppCompatActivity {
             List<String> pico_message_parts_array = myGlobals.decode_pico_message(pico_message);
             String functionName = pico_message_parts_array.get(0);
             if(Objects.equals(functionName, "setShutterTime")){
+                myGlobals.shutter_time = Integer.parseInt(pico_message_parts_array.get(1));;
+                shutter_time_bar.setProgress(myGlobals.shutter_time);
                 Toast.makeText(Shutter_Time_Activity.this, "Set",
                         Toast.LENGTH_SHORT).show();
             }

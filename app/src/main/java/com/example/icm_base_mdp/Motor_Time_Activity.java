@@ -69,9 +69,7 @@ public class Motor_Time_Activity extends AppCompatActivity {
             public void onClick(View view) {
                 //sending command to pico to sync the changes
                 String str = "setMotorTime";
-                myGlobals.motor_time = temp_motor_time;
-                motor_time_bar.setProgress(temp_motor_time);
-                String motor_time_str = String.valueOf(myGlobals.motor_time);
+                String motor_time_str = String.valueOf(temp_motor_time);
                 str = str + '_' + motor_time_str;
                 BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
 
@@ -110,6 +108,9 @@ public class Motor_Time_Activity extends AppCompatActivity {
             List<String> pico_message_parts_array = myGlobals.decode_pico_message(pico_message);
             String functionName = pico_message_parts_array.get(0);
             if(Objects.equals(functionName, "setMotorTime")){
+                //myGlobals.motor_time = temp_motor_time;
+                myGlobals.motor_time =  Integer.parseInt(pico_message_parts_array.get(1));
+                motor_time_bar.setProgress(myGlobals.motor_time);
                 Toast.makeText(Motor_Time_Activity.this, "Set",
                         Toast.LENGTH_SHORT).show();
             }

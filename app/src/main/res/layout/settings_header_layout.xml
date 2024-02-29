@@ -22,11 +22,11 @@
         android:id="@+id/setting_header_layout_motor_time_textview"
         android:layout_width="133dp"
         android:layout_height="32dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="60dp"
         android:text="@string/motor_time"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.834"
+        app:layout_constraintHorizontal_bias="0.816"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

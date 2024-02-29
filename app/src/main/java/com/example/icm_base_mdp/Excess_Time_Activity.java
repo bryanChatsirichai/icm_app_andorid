@@ -34,8 +34,8 @@ public class Excess_Time_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String str = "setExcessTime";
-                myGlobals.excess_option_set = 0;
-                String excess_option_set_str = String.valueOf(myGlobals.excess_option_set);
+                //myGlobals.excess_option_set = 0;
+                String excess_option_set_str = String.valueOf(0);
                 str = str + '_' + excess_option_set_str;
                 BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             }
@@ -44,8 +44,8 @@ public class Excess_Time_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String str = "setExcessTime";
-                myGlobals.excess_option_set = 1;
-                String excess_option_set_str = String.valueOf(myGlobals.excess_option_set);
+                //myGlobals.excess_option_set = 1;
+                String excess_option_set_str = String.valueOf(1);
                 str = str + '_' + excess_option_set_str;
                 BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));            }
         });
@@ -53,8 +53,8 @@ public class Excess_Time_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String str = "setExcessTime";
-                myGlobals.excess_option_set = 2;
-                String excess_option_set_str = String.valueOf(myGlobals.excess_option_set);
+                //myGlobals.excess_option_set = 2;
+                String excess_option_set_str = String.valueOf(2);
                 str = str + '_' + excess_option_set_str;
                 BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             }
@@ -103,10 +103,10 @@ public class Excess_Time_Activity extends AppCompatActivity {
             assert pico_message != null;
             List<String> pico_message_parts_array = myGlobals.decode_pico_message(pico_message);
             String functionName = pico_message_parts_array.get(0);
-            int excess_option_set = myGlobals.excess_option_set;
             if(Objects.equals(functionName, "setExcessTime")){
                 //change color to selected option
-                switch (excess_option_set) {
+                myGlobals.excess_option_set =  Integer.parseInt(pico_message_parts_array.get(1));
+                switch (myGlobals.excess_option_set) {
                     case 0:
                         // code block
                         excess_time_pre_button.setText("Pre - Selected");

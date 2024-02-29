@@ -34,8 +34,8 @@ public class Switch_zoom_focus_position_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String str = "switchOrientation";
-                myGlobals.orientation = 0;
-                String orientation_str = String.valueOf(myGlobals.orientation);
+                //myGlobals.orientation = 0;
+                String orientation_str = String.valueOf(0);
                 str = str + '_' + orientation_str;
                 BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             }
@@ -44,8 +44,8 @@ public class Switch_zoom_focus_position_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String str = "switchOrientation";
-                myGlobals.orientation = 1;
-                String orientation_str = String.valueOf(myGlobals.orientation);
+                //myGlobals.orientation = 1;
+                String orientation_str = String.valueOf(1);
                 str = str + '_' + orientation_str;
                 BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             }
@@ -57,8 +57,7 @@ public class Switch_zoom_focus_position_Activity extends AppCompatActivity {
         position_zoom_at_the_back_button = findViewById(R.id.position_zoom_at_the_back_button);
         position_zoom_at_the_front_button = findViewById(R.id.position_zoom_at_the_front_button);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, new IntentFilter("IncomingMsg"));
-        int orientation = myGlobals.orientation;
-        switch (orientation) {
+        switch (myGlobals.orientation) {
             case 0:
                 // code block
                 position_zoom_at_the_back_button.setText("Zoom at the Back - Selected");
@@ -85,8 +84,8 @@ public class Switch_zoom_focus_position_Activity extends AppCompatActivity {
             List<String> pico_message_parts_array = myGlobals.decode_pico_message(pico_message);
             String functionName = pico_message_parts_array.get(0);
             if(Objects.equals(functionName, "switchOrientation")){
-                int orientation = myGlobals.orientation;
-                switch (orientation) {
+                myGlobals.orientation = Integer.parseInt(pico_message_parts_array.get(1));
+                switch (myGlobals.orientation) {
                     case 0:
                         // code block
                         position_zoom_at_the_back_button.setText("Zoom at the Back - Selected");

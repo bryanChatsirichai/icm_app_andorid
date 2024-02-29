@@ -54,9 +54,9 @@ public class Options_Activity extends AppCompatActivity {
             public void onClick(View view) {
                 //may need update the options header is in this page still, need set textview ...
                 String str = "resetCamera";
-                myGlobals.shutter_time = 0;
-                myGlobals.motor_time = 0;
-                myGlobals.excess_option_set = 0;
+                //myGlobals.shutter_time = 0;
+                //myGlobals.motor_time = 0;
+                //myGlobals.excess_option_set = 0;
                 BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             }
         });
@@ -65,13 +65,13 @@ public class Options_Activity extends AppCompatActivity {
             public void onClick(View view) {
                 //may need update the options header is in this page still, need set textview ...
                 String str = "resetMotorCalibration";
-                myGlobals.focus_range = 0;
-                myGlobals.zoom_range = 0;
-                myGlobals.focus_current = 0;
-                myGlobals.zoom_current = 0;
-                myGlobals.orientation = 0;
-                myGlobals.rear_rotation_direction = 0;
-                myGlobals.front_rotation_direction = 0;
+                //myGlobals.focus_range = 0;
+                //myGlobals.zoom_range = 0;
+                //myGlobals.focus_current = 0;
+                //myGlobals.zoom_current = 0;
+                //myGlobals.orientation = 0;
+                //myGlobals.rear_rotation_direction = 0;
+                //myGlobals.front_rotation_direction = 0;
                 updatePage();
                 BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             }
@@ -167,11 +167,21 @@ public class Options_Activity extends AppCompatActivity {
             List<String> pico_message_parts_array = myGlobals.decode_pico_message(pico_message);
             String functionName = pico_message_parts_array.get(0);
             if(Objects.equals(functionName, "resetCamera")){
+                myGlobals.shutter_time = 0;
+                myGlobals.motor_time = 0;
+                myGlobals.excess_option_set = 0;
                 Toast.makeText(Options_Activity.this, "Camera Setting Reset!",
                         Toast.LENGTH_SHORT).show();
             }
             else if(Objects.equals(functionName, "resetMotorCalibration")){
                 // Inside your activity
+                myGlobals.focus_range = 0;
+                myGlobals.zoom_range = 0;
+                myGlobals.focus_current = 0;
+                myGlobals.zoom_current = 0;
+                myGlobals.orientation = 0;
+                myGlobals.rear_rotation_direction = 0;
+                myGlobals.front_rotation_direction = 0;
                 recreate();
                 Toast.makeText(Options_Activity.this, "Motor Calibration Reset!",
                         Toast.LENGTH_SHORT).show();

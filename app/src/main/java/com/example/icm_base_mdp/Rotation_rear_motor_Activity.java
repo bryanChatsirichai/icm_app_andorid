@@ -34,8 +34,8 @@ public class Rotation_rear_motor_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String str = "switchRearMotorRotation";
-                myGlobals.rear_rotation_direction = 0;
-                String rear_rotation_direction_str = String.valueOf(myGlobals.rear_rotation_direction);
+                //myGlobals.rear_rotation_direction = 0;
+                String rear_rotation_direction_str = String.valueOf(0);
                 str = str + '_' + rear_rotation_direction_str;
                 BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             }
@@ -44,8 +44,8 @@ public class Rotation_rear_motor_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String str = "switchRearMotorRotation";
-                myGlobals.rear_rotation_direction = 1;
-                String rear_rotation_direction_str = String.valueOf(myGlobals.rear_rotation_direction);
+                //myGlobals.rear_rotation_direction = 1;
+                String rear_rotation_direction_str = String.valueOf(1);
                 str = str + '_' + rear_rotation_direction_str;
                 BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             }
@@ -84,6 +84,7 @@ public class Rotation_rear_motor_Activity extends AppCompatActivity {
             List<String> pico_message_parts_array = myGlobals.decode_pico_message(pico_message);
             String functionName = pico_message_parts_array.get(0);
             if(Objects.equals(functionName, "switchRearMotorRotation")){
+                myGlobals.rear_rotation_direction = Integer.parseInt(pico_message_parts_array.get(1));
                 switch (myGlobals.rear_rotation_direction) {
                     case 0:
                         // code block
