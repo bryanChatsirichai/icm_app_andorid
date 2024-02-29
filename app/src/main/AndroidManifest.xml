@@ -24,6 +24,11 @@
         android:theme="@style/Theme.ICM_base_mdp"
         tools:targetApi="31">
         <activity
+            android:name=".Simple_Actions_Activity"
+            android:exported="false"
+            android:label="@string/title_activity_simple_actions"
+            android:theme="@style/Theme.ICM_base_mdp" />
+        <activity
             android:name=".motor_header_layout"
             android:exported="false" />
         <activity

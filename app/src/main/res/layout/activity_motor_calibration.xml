@@ -5,6 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Motor_Calibration_Activity">
+
+    <include
+        layout="@layout/motor_header_layout" />
+
     <TextView
         android:id="@+id/motor_calibration_header"
         android:layout_width="wrap_content"

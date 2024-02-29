@@ -27,7 +27,7 @@ public class ICM_Home_Activity extends AppCompatActivity {
     BluetoothAdapter bluetoothAdapter;
     MyGlobals myGlobals;
     //View Components
-    Button camera_config_button,sync_button;
+    Button camera_config_button,sync_button,camera_simple_actions_button;
     TextView action_textview;
 
 
@@ -40,6 +40,13 @@ public class ICM_Home_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(ICM_Home_Activity.this, Configuration_Menu_Activity.class);
+                startActivity(i);
+            }
+        });
+        camera_simple_actions_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ICM_Home_Activity.this, Simple_Actions_Activity.class);
                 startActivity(i);
             }
         });
@@ -62,6 +69,7 @@ public class ICM_Home_Activity extends AppCompatActivity {
         int initial_action_value = myGlobals.global_number;
         action_textview.setText(String.valueOf(initial_action_value));
         camera_config_button = findViewById(R.id.camera_config_button);
+        camera_simple_actions_button = findViewById(R.id.camera_simple_actions_button);
         sync_button = findViewById(R.id.sync_button);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, new IntentFilter("IncomingMsg"));
     }
