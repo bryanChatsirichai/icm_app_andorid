@@ -1,24 +1,45 @@
 package com.example.icm_base_mdp;
 
+import android.app.Dialog;
+import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Objects;
 
 public class CustomAdapter extends BaseAdapter {
 
-    private Context context;
-    private List<String> data;
+    private final Context context;
+    private final List<String> data;
+
+    // Bluetooth Connection
+    BluetoothAdapter bluetoothAdapter;
+    MyGlobals myGlobals;
+    //View Components
+    private Dialog dialog;
 
     public CustomAdapter(Context context, List<String> data) {
         this.context = context;
         this.data = data;
+        myGlobals = MyGlobals.getInstance();
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        LocalBroadcastManager.getInstance(this.context).registerReceiver(messageReceiver, new IntentFilter("IncomingMsg"));
+
     }
 
     @Override
@@ -48,45 +69,105 @@ public class CustomAdapter extends BaseAdapter {
 
         // Set text based on the data
         String itemText = data.get(position);
-        button1.setText(itemText + " - Button 1");
+        button1.setText(itemText);
 
         // Set button click listeners or any other functionality
         // Set click listeners with different actions for each button
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Perform action A for button1
-                /*
-                * Maybe can use switch statement to do action depending on button itemText , button_name;
-                *
-                * */
                 performActionA(itemText);
             }
         });
-
         return convertView;
     }
 
     // Define your actions
     private void performActionA(String itemText) {
         // Implement the action for button1
+        showCountdownDialog(itemText);
+    }
+
+    //BLUETOOTH SECTION,Receiving important command from RPI
+    BroadcastReceiver messageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("CustomAdapter", "Receiving Msg...");
+            //depending on the message, decode action an values to do
+            String pico_message = intent.getStringExtra("receivingMsg");
+            assert pico_message != null;
+            List<String> pico_message_parts_array = myGlobals.decode_pico_message(pico_message);
+            String functionName = pico_message_parts_array.get(0);
+            // dummy action to test message send and reply
+            if(Objects.equals(functionName, "Action2")){
+                //close the dialog after pico done action
+                dialog.dismiss();
+                Toast.makeText(context,"Simple Action completed!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+
+
+
+    //idea: send count down 3,2,1 then send pico message
+    private void showCountdownDialog(String itemText) {
+        dialog = new Dialog(this.context);
+        dialog.setContentView(R.layout.countdown_dialog);
+        // Set this to false to prevent dialog cancellation by touching outside
+        dialog.setCanceledOnTouchOutside(false);
+
+        final TextView countdownText = dialog.findViewById(R.id.countdownTextView);
+
+        //add 1sec more for buffer
+        CountDownTimer countDownTimer = new CountDownTimer(4000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long seconds = millisUntilFinished / 1000;
+                String str = "Action starting in "  + String.valueOf(seconds)  + " Sec";
+                countdownText.setText(String.valueOf(str));
+            }
+
+            @Override
+            //triggers when timer hit 0
+            public void onFinish() {
+                //dialog.dismiss();
+                String str = "Action Start!";
+                countdownText.setText(String.valueOf(str));
+                actionAfterCountDown(itemText,dialog);
+            }
+        };
+
+        countDownTimer.start();
+        dialog.show();
+    }
+
+    //Do button specific Action after countdown eg. send message to pico.
+    // use the dialog at th
+    private void actionAfterCountDown(String itemText,Dialog dialog) {
         if(Objects.equals(itemText, "Item 1")){
             Toast.makeText(context, "Action A for " + itemText, Toast.LENGTH_SHORT).show();
+            String str = "Action2";
+            BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+            //wait for pico reply say finished then close dialog.
+            //dialog.dismiss();
 
         }
         else if(Objects.equals(itemText, "Item 2")){
             Toast.makeText(context, "Action B for " + itemText, Toast.LENGTH_SHORT).show();
+            String str = "Action2";
+            BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+            //wait for pico reply say finished then close dialog.
+            //dialog.dismiss();
 
         }
         else{
             Toast.makeText(context, "Action C for " + itemText, Toast.LENGTH_SHORT).show();
+            String str = "Action2";
+            BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+            //
+            //wait for pico reply say finished then close dialog.
+            //dialog.dismiss();
         }
-
-
-    }
-
-    private void performActionB(String itemText) {
-        // Implement the action for button2
-        Toast.makeText(context, "Action B for " + itemText, Toast.LENGTH_SHORT).show();
     }
 }
