@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,13 +33,15 @@ public class CustomAdapter extends BaseAdapter {
     MyGlobals myGlobals;
     //View Components
     private Dialog dialog;
+    private Resources getResources;
 
-    public CustomAdapter(Context context, List<String> data) {
+    public CustomAdapter(Context context, List<String> data, Resources getResources) {
         this.context = context;
         this.data = data;
         myGlobals = MyGlobals.getInstance();
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         LocalBroadcastManager.getInstance(this.context).registerReceiver(messageReceiver, new IntentFilter("IncomingMsg"));
+        this.getResources = getResources;
 
     }
 
@@ -104,6 +107,46 @@ public class CustomAdapter extends BaseAdapter {
                 dialog.dismiss();
                 Toast.makeText(context,"Simple Action completed!", Toast.LENGTH_SHORT).show();
             }
+            else if(Objects.equals(functionName, "zoomToMin")){
+                //close the dialog after pico done action
+                dialog.dismiss();
+                Toast.makeText(context,"zoomToMin completed!", Toast.LENGTH_SHORT).show();
+            }
+            else if(Objects.equals(functionName, "zoomToMax")){
+                //close the dialog after pico done action
+                dialog.dismiss();
+                Toast.makeText(context,"zoomToMax completed!", Toast.LENGTH_SHORT).show();
+            }
+            else if(Objects.equals(functionName, "zoomToMinBack")){
+                //close the dialog after pico done action
+                dialog.dismiss();
+                Toast.makeText(context,"zoomToMinBack completed!", Toast.LENGTH_SHORT).show();
+            }
+            else if(Objects.equals(functionName, "zoomToMaxBack")){
+                //close the dialog after pico done action
+                dialog.dismiss();
+                Toast.makeText(context,"zoomToMaxBack completed!", Toast.LENGTH_SHORT).show();
+            }
+            else if(Objects.equals(functionName, "focusToMin")){
+                //close the dialog after pico done action
+                dialog.dismiss();
+                Toast.makeText(context,"focusToMin completed!", Toast.LENGTH_SHORT).show();
+            }
+            else if(Objects.equals(functionName, "focusToMax")){
+                //close the dialog after pico done action
+                dialog.dismiss();
+                Toast.makeText(context,"focusToMax completed!", Toast.LENGTH_SHORT).show();
+            }
+            else if(Objects.equals(functionName, "focusToMinBack")){
+                //close the dialog after pico done action
+                dialog.dismiss();
+                Toast.makeText(context,"focusToMinBack completed!", Toast.LENGTH_SHORT).show();
+            }
+            else if(Objects.equals(functionName, "focusToMaxBack")){
+                //close the dialog after pico done action
+                dialog.dismiss();
+                Toast.makeText(context,"focusToMaxBack completed!", Toast.LENGTH_SHORT).show();
+            }
         }
     };
 
@@ -145,29 +188,77 @@ public class CustomAdapter extends BaseAdapter {
     //Do button specific Action after countdown eg. send message to pico.
     // use the dialog at th
     private void actionAfterCountDown(String itemText,Dialog dialog) {
-        if(Objects.equals(itemText, "Item 1")){
-            Toast.makeText(context, "Action A for " + itemText, Toast.LENGTH_SHORT).show();
-            String str = "Action2";
+        if(Objects.equals(itemText, this.getResources.getString(R.string.zoom_to_min))){
+            String str = "zoomToMin";
+            Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
             BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             //wait for pico reply say finished then close dialog.
             //dialog.dismiss();
 
         }
-        else if(Objects.equals(itemText, "Item 2")){
-            Toast.makeText(context, "Action B for " + itemText, Toast.LENGTH_SHORT).show();
-            String str = "Action2";
+        else if(Objects.equals(itemText, this.getResources.getString(R.string.zoom_to_max))){
+            String str = "zoomToMax";
+            Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
             BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
             //wait for pico reply say finished then close dialog.
             //dialog.dismiss();
 
         }
-        else{
-            Toast.makeText(context, "Action C for " + itemText, Toast.LENGTH_SHORT).show();
-            String str = "Action2";
+        else if(Objects.equals(itemText, this.getResources.getString(R.string.zoom_to_min_and_back))){
+            String str = "zoomToMinBack";
+            Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
             BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
-            //
             //wait for pico reply say finished then close dialog.
             //dialog.dismiss();
+
         }
+        else if(Objects.equals(itemText, this.getResources.getString(R.string.zoom_to_max_and_back))){
+            String str = "zoomToMaxBack";
+            Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
+            BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+            //wait for pico reply say finished then close dialog.
+            //dialog.dismiss();
+
+        }
+        else if(Objects.equals(itemText, this.getResources.getString(R.string.focus_to_min))){
+            String str = "focusToMin";
+            Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
+            BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+            //wait for pico reply say finished then close dialog.
+            //dialog.dismiss();
+
+        }
+        else if(Objects.equals(itemText, this.getResources.getString(R.string.focus_to_max))){
+            String str = "focusToMax";
+            Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
+            BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+            //wait for pico reply say finished then close dialog.
+            //dialog.dismiss();
+
+        }
+        else if(Objects.equals(itemText, this.getResources.getString(R.string.focus_to_min_and_back))){
+            String str = "focusToMinBack";
+            Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
+            BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+            //wait for pico reply say finished then close dialog.
+            //dialog.dismiss();
+
+        }
+        else if(Objects.equals(itemText, this.getResources.getString(R.string.focus_to_max_and_back))){
+            String str = "focusToMaxBack";
+            Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
+            BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+            //wait for pico reply say finished then close dialog.
+            //dialog.dismiss();
+
+        }
+//        else{
+//            Toast.makeText(context, "Action C for " + itemText, Toast.LENGTH_SHORT).show();
+//            String str = "Action2";
+//            BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+//            //
+//            //wait for pico reply say finished then close dialog.
+//            //dialog.dismiss();
+//        }
     }
 }

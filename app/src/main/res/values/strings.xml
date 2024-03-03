@@ -33,6 +33,27 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <!--Simple actions-->
+    <string name="zoom_to_min">Zoom to min</string>
+    <string name="zoom_to_max">Zoom to max</string>
+    <string name="zoom_to_min_and_back">Zoom to min and back</string>
+    <string name="zoom_to_max_and_back">Zoom to max and back</string>
+    <string name="zoom_to_value">Zoom to value</string>
+    <string name="zoom_to_value_and_back">Zoom to value and back</string>
+    <string name="focus_to_min">Focus to min</string>
+    <string name="focus_to_max">Focus to max</string>
+    <string name="focus_to_min_and_back">Focus to min and back</string>
+    <string name="focus_to_max_and_back">Focus to max and back</string>
+    <string name="focus_to_value">Focus to value</string>
+    <string name="focus_to_value_and_back">Zoom Focus to value and back</string>
+    <string name="Zoom_Focus_to_min">Zoom Focus to min</string>
+    <string name="Zoom_Focus_to_max">Zoom Focus to max</string>
+    <string name="Zoom_Focus_to_min_and_back">Zoom Focus to min and back</string>
+    <string name="Zoom_Focus_to_max_and_back">Zoom Focus to max and back</string>
+    <string name="Zoom_Focus_to_value">Zoom Focus to value</string>
+    <string name="Zoom_Focus_to_value_and_back">Zoom Focus to value and back</string>
+
+
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus

@@ -16,8 +16,14 @@ public class Simple_Actions_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_simple_actions);
         ListView listView = findViewById(R.id.simple_actions_listviews);
 
-        List<String> data = Arrays.asList("Item 1", "Item 2", "Item 3","Item 4", "Item 5", "Item 6","Item 7", "Item 8", "Item 9");
-        CustomAdapter adapter = new CustomAdapter(this, data);
+        List<String> data = Arrays.asList(getResources().getString(R.string.zoom_to_min),getResources().getString(R.string.zoom_to_max),getResources().getString(R.string.zoom_to_min_and_back)
+        ,getResources().getString(R.string.zoom_to_max_and_back),getResources().getString(R.string.zoom_to_value),getResources().getString(R.string.zoom_to_value_and_back),
+                getResources().getString(R.string.focus_to_min),getResources().getString(R.string.focus_to_max),getResources().getString(R.string.focus_to_min_and_back)
+                ,getResources().getString(R.string.focus_to_max_and_back),getResources().getString(R.string.focus_to_value),getResources().getString(R.string.focus_to_value_and_back));
+
+
+
+        CustomAdapter adapter = new CustomAdapter(this, data,getResources());
 
         listView.setAdapter(adapter);
     }
