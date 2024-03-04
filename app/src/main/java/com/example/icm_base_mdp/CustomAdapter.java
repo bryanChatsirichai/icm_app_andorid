@@ -196,6 +196,20 @@ public class CustomAdapter extends BaseAdapter {
             context.startActivity(i);
 
         }
+        else if (Objects.equals(itemText, this.getResources.getString(R.string.focus_to_value))){
+            //no countdown initially as need go pov activity
+            Intent i = new Intent(this.context, Pov_focus_to_value_Activity.class);
+            i.putExtra("gotBack", false); // Replace "key" and "value" with your actual data
+            context.startActivity(i);
+
+        }
+        else if (Objects.equals(itemText, this.getResources.getString(R.string.focus_to_value_and_back))){
+            //no countdown initially as need go pov activity
+            Intent i = new Intent(this.context, Pov_focus_to_value_Activity.class);
+            i.putExtra("gotBack", true); // Replace "key" and "value" with your actual data
+            context.startActivity(i);
+
+        }
         else{
             countDownTimer.start();
             dialog.show();
@@ -270,15 +284,7 @@ public class CustomAdapter extends BaseAdapter {
             //dialog.dismiss();
 
         }
-        else if(Objects.equals(itemText, this.getResources.getString(R.string.zoom_to_value))){
-            // do it in its own activity
-            // String str = "povZoom";
-            //Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
-            // BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
-            // wait for pico reply say finished then close dialog.
-            // dialog.dismiss();
 
-        }
 //        else{
 //            Toast.makeText(context, "Action C for " + itemText, Toast.LENGTH_SHORT).show();
 //            String str = "Action2";
