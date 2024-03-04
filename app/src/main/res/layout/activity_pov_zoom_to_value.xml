@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Pov_Calibration_Activity">
+    tools:context=".Pov_zoom_to_value_Activity">
     <TextView
-        android:id="@+id/pov_calibration_header"
+        android:id="@+id/pov_zoom_to_value_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="|-Pov Calibration-|"
+        android:text="|-Adjust Zoom Pov-|"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,7 +17,7 @@
         app:layout_constraintVertical_bias="0.16" />
 
     <ProgressBar
-        android:id="@+id/pov_calibration_bar"
+        android:id="@+id/pov_zoom_to_value_bar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="188dp"
         android:layout_height="93dp"
@@ -33,19 +33,19 @@
 
 
     <Button
-        android:id="@+id/pov_calibration_decrease_button"
+        android:id="@+id/pov_zoom_to_value_decrease_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="36dp"
         android:layout_marginBottom="264dp"
         android:text="Decrease"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/pov_calibration_increase_button"
+        app:layout_constraintEnd_toStartOf="@+id/pov_zoom_to_value_increase_button"
         app:layout_constraintHorizontal_bias="0.886"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/pov_calibration_increase_button"
+        android:id="@+id/pov_zoom_to_value_increase_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="80dp"
@@ -55,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/pov_calibration_max_rotation_textview"
+        android:id="@+id/pov_zoom_to_value_max_range_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Zoom / Focus Max range: x steps"
@@ -67,23 +67,23 @@
         app:layout_constraintVertical_bias="0.339" />
 
     <TextView
-        android:id="@+id/pov_calibration_current_step_textview"
+        android:id="@+id/pov_zoom_value_current_step_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.081"
-        app:layout_constraintStart_toEndOf="@+id/pov_calibration_bar"
+        app:layout_constraintStart_toEndOf="@+id/pov_zoom_to_value_bar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.415" />
 
 
     <TextView
-        android:id="@+id/pov_calibration_direction_textview"
+        android:id="@+id/pov_zoom_to_value_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Adjust Zoom Pov / Focus Pov"
+        android:text="Adjust Zoom Pov"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.169"
@@ -92,7 +92,7 @@
         app:layout_constraintVertical_bias="0.525" />
 
     <Button
-        android:id="@+id/pov_calibration_set_button"
+        android:id="@+id/pov_zoom_to_value_set_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Set"
