@@ -24,6 +24,9 @@
         android:theme="@style/Theme.ICM_base_mdp"
         tools:targetApi="31">
         <activity
+            android:name=".Pov_zoomfocus_to_value_Activity"
+            android:exported="false" />
+        <activity
             android:name=".Pov_focus_to_value_Activity"
             android:exported="false" />
         <activity

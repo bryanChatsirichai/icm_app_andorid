@@ -46,10 +46,15 @@
     <string name="focus_to_max_and_back">Focus to max and back</string>
     <string name="focus_to_value">Focus to value</string>
     <string name="focus_to_value_and_back">Focus to value and back</string>
-    <string name="Zoom_Focus_to_min">Zoom Focus to min</string>
-    <string name="Zoom_Focus_to_max">Zoom Focus to max</string>
-    <string name="Zoom_Focus_to_min_and_back">Zoom Focus to min and back</string>
-    <string name="Zoom_Focus_to_max_and_back">Zoom Focus to max and back</string>
+
+    <string name="Zoom_Min_Focus_Min">Zoom min Focus min</string>
+    <string name="Zoom_Max_Focus_Max">Zoom max Focus max</string>
+    <string name="Zoom_Min_Focus_Max">Zoom min Focus max</string>
+    <string name="Zoom_Max_Focus_Min">Zoom max Focus min</string>
+    <string name="Zoom_Min_Focus_Min_and_back">Zoom min Focus min and back</string>
+    <string name="Zoom_Max_Focus_Max_and_back">Zoom max Focus max and back</string>
+    <string name="Zoom_Min_Focus_Max_and_back">Zoom min Focus max and back</string>
+    <string name="Zoom_Max_Focus_Min_and_back">Zoom max Focus min and back</string>
     <string name="Zoom_Focus_to_value">Zoom Focus to value</string>
     <string name="Zoom_Focus_to_value_and_back">Zoom Focus to value and back</string>
 

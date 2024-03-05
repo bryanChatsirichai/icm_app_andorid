@@ -43,6 +43,7 @@ public class BluetoothCommunication {
 
         //Buffer store for the stream
         byte[] buffer = new byte[1024];
+        //byte[] buffer = new byte[2048];
 
         int numbytes; // bytes returned from read()
 
@@ -58,6 +59,7 @@ public class BluetoothCommunication {
                 incomingMsgIntent.putExtra("receivingMsg", incomingMessage);
                 LocalBroadcastManager.getInstance(mmContext).sendBroadcast(incomingMsgIntent);
                 buffer = new byte[1024];
+                //buffer = new byte[2048];
 
             } catch (IOException e) {
 
