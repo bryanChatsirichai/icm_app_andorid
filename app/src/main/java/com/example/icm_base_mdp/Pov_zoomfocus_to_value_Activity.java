@@ -34,7 +34,7 @@ public class Pov_zoomfocus_to_value_Activity extends AppCompatActivity {
     Intent intent;
     boolean gotBack ;
     int zoom_initialPosition,focus_initialPosition,zoom_target,focus_target;
-    private  boolean firstTime = true; //first-time zoom, second focus
+    private boolean firstTime; //first-time zoom, second focus
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +118,15 @@ public class Pov_zoomfocus_to_value_Activity extends AppCompatActivity {
                     myGlobals.zoom_current = zoom_initialPosition;
                     str = str + "_" + String.valueOf(myGlobals.zoom_current) + '_' + String.valueOf(zoom_target);
                     //go back to action, move this part to on receive
+                    firstTime = false;
+                    String text = "Focus Max range: " +  String.valueOf(myGlobals.focus_range) + " steps";
+                    pov_zoomfocus_to_value_max_range_textview.setText(text);
+                    String text2 = String.valueOf(myGlobals.focus_current) + " steps";
+                    pov_zoomfocus_value_current_step_textview.setText(text2);
+
+                    pov_zoomfocus_to_value_textview.setText("Adjust Focus Pov");
+                    pov_zoomfocus_to_value_bar.setMax(myGlobals.focus_range);
+                    pov_zoomfocus_to_value_bar.setProgress(myGlobals.focus_current);
 
                 }
                 else{
@@ -125,6 +134,7 @@ public class Pov_zoomfocus_to_value_Activity extends AppCompatActivity {
                     str = "povZFToValueFSet";
                     focus_target = myGlobals.focus_current;
                     myGlobals.focus_current = focus_initialPosition;
+                    showCountdownDialog("Zoom / Focus to value ");
                     str = str + "_" + String.valueOf(myGlobals.focus_current) + '_' + String.valueOf(focus_target);
                     //go back to action, move this part to on receive
                 }
@@ -133,7 +143,8 @@ public class Pov_zoomfocus_to_value_Activity extends AppCompatActivity {
         });
     }
 
-    private void init () {
+    private void init() {
+        firstTime = true;
         Intent intent = getIntent();
         gotBack = intent.getBooleanExtra("gotBack",false); // Replace "key" with the key you used in the sender activity
         myGlobals = MyGlobals.getInstance();
@@ -165,7 +176,6 @@ public class Pov_zoomfocus_to_value_Activity extends AppCompatActivity {
             else{
                 pov_zoomfocus_to_value_header.setText("|-Adjust Focus Pov-|");
             }
-
         }
         if(firstTime){
             String text = "Zoom Max range: " +  String.valueOf(myGlobals.zoom_range) + " steps";
@@ -245,25 +255,47 @@ public class Pov_zoomfocus_to_value_Activity extends AppCompatActivity {
                 String text2 = String.valueOf(myGlobals.focus_current) + " steps";
                 pov_zoomfocus_value_current_step_textview.setText(text2);
 
+                if(gotBack){
+                    if(firstTime){
+                        pov_zoomfocus_to_value_header.setText("|-Adjust Zoom Pov (Back)-|");
+                    }
+                    else{
+                        pov_zoomfocus_to_value_header.setText("|-Adjust Focus Pov (Back)-|");
+                    }
+                }
+                else{
+                    if(firstTime){
+                        pov_zoomfocus_to_value_header.setText("|-Adjust Zoom Pov-|");
+                    }
+                    else{
+                        pov_zoomfocus_to_value_header.setText("|-Adjust Focus Pov-|");
+                    }
+                }
                 pov_zoomfocus_to_value_textview.setText("Adjust Focus Pov");
                 pov_zoomfocus_to_value_bar.setMax(myGlobals.focus_range);
                 pov_zoomfocus_to_value_bar.setProgress(myGlobals.focus_current);
             }
             else if(Objects.equals(functionName, "povZFToValueFSet")){
                 //open dialog and countdown to start action
-                showCountdownDialog("Zoom / Focus to value ");
+                //showCountdownDialog("Zoom / Focus to value ");
             }
             //finished action
             else if(Objects.equals(functionName, "povZFToValueStart")){
                 //close dialog
-                dialog.dismiss();
-                Toast.makeText(Pov_zoomfocus_to_value_Activity.this, "povZoomFocusToValue completed!",
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                    dialog = null;
+                }
+                Toast.makeText(Pov_zoomfocus_to_value_Activity.this, "povZFToValue completed!",
                         Toast.LENGTH_SHORT).show();
             }
             //finished action
             else if(Objects.equals(functionName, "povZFToValueBackStart")){
                 //close dialog
-                dialog.dismiss();
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                    dialog = null;
+                }
                 Toast.makeText(Pov_zoomfocus_to_value_Activity.this, "povZFToValue back completed!",
                         Toast.LENGTH_SHORT).show();
             }
@@ -289,38 +321,42 @@ public class Pov_zoomfocus_to_value_Activity extends AppCompatActivity {
             @Override
             //triggers when timer hit 0
             public void onFinish() {
-                //dialog.dismiss();
                 String str = "Action Start!";
                 countdownText.setText(String.valueOf(str));
-                actionAfterCountDown(itemText,dialog);
+                actionAfterCountDown(itemText);
             }
         };
 
         countDownTimer.start();
         dialog.show();
 
+
     }
     //Do button specific Action after countdown eg. send message to pico.
     // use the dialog at th
-    private void actionAfterCountDown(String itemText,Dialog dialog) {
+    private void actionAfterCountDown(String itemText) {
         //send message to pico, go back to initial position then go to that value
-        if(firstTime){
-            return;
+        //send the start action message to pico
+        String str = "";
+        if(gotBack){
+            str = "povZFToValueBackStart";
         }
         else{
-            //send the start action message to pico
-            String str;
-            if(gotBack){
-                str = "povZFToValueBackStart";
-            }
-            else{
-                str = "povZFToValueStart";
-            }
-            str = str + "_" + String.valueOf(myGlobals.zoom_current) + '_' + String.valueOf(zoom_target) + '_' +  String.valueOf(myGlobals.focus_current) + '_' + String.valueOf(focus_target) ;
-            //go back to action, move this part to on receive
-            Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
-            BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+            str = "povZFToValueStart";
         }
+        str = str + "_" + String.valueOf(myGlobals.zoom_current) + '_' + String.valueOf(zoom_target) + '_' +  String.valueOf(myGlobals.focus_current) + '_' + String.valueOf(focus_target) ;
+        //go back to action, move this part to on receive
+        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+        BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Your custom back button behavior here
+        // For example, you can show a confirmation dialog or navigate to a specific activity
+        // If you want to perform the default back button behavior, call super.onBackPressed()
+        dialog = null;
+        super.onBackPressed();
     }
 }

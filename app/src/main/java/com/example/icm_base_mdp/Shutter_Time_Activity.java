@@ -111,6 +111,12 @@ public class Shutter_Time_Activity extends AppCompatActivity {
             String functionName = pico_message_parts_array.get(0);
             if(Objects.equals(functionName, "setShutterTime")){
                 myGlobals.shutter_time = Integer.parseInt(pico_message_parts_array.get(1));;
+
+                //max shutter time  = max motor time
+                myGlobals.max_motor_time = myGlobals.shutter_time;
+                if(myGlobals.motor_time > myGlobals.max_motor_time){
+                    myGlobals.motor_time = myGlobals.max_motor_time;
+                }
                 shutter_time_bar.setProgress(myGlobals.shutter_time);
                 Toast.makeText(Shutter_Time_Activity.this, "Set",
                         Toast.LENGTH_SHORT).show();

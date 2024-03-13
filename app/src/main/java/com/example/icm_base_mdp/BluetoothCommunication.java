@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -28,6 +29,8 @@ public class BluetoothCommunication {
     private static OutputStream outPutStream;
     private static BluetoothDevice BTConnectionDevice;
 
+    private static final int BUFFER_SIZE = 1024;
+
     public static void startCommunication(BluetoothSocket socket) {
         mmSocket = socket;
         InputStream tmpIn = null;
@@ -42,8 +45,7 @@ public class BluetoothCommunication {
         outPutStream = tmpOut;
 
         //Buffer store for the stream
-        byte[] buffer = new byte[1024];
-        //byte[] buffer = new byte[2048];
+        byte[] buffer = new byte[BUFFER_SIZE];
 
         int numbytes; // bytes returned from read()
 
@@ -52,14 +54,13 @@ public class BluetoothCommunication {
             try {
                 numbytes = inputStream.read(buffer);
 
-                String incomingMessage = new String(buffer, 0, numbytes);
+                String incomingMessage = new String(buffer, 0, numbytes, StandardCharsets.UTF_8);
 
                 //BROADCAST INCOMING MSG
                 Intent incomingMsgIntent = new Intent("IncomingMsg");
                 incomingMsgIntent.putExtra("receivingMsg", incomingMessage);
                 LocalBroadcastManager.getInstance(mmContext).sendBroadcast(incomingMsgIntent);
-                buffer = new byte[1024];
-                //buffer = new byte[2048];
+                buffer = new byte[BUFFER_SIZE];
 
             } catch (IOException e) {
 

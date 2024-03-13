@@ -90,11 +90,14 @@ public class Motor_Time_Activity extends AppCompatActivity {
         temp_motor_time = myGlobals.motor_time;
         int current_motor_time = myGlobals.motor_time;
         int max_motor_time = myGlobals.max_motor_time;
+
         String str1 = current_motor_time + " sec";
         String str2 = "Max(sec): " + max_motor_time;
         current_motor_time_textview.setText(str1);
         max_motor_time_textview.setText(str2);
         motor_time_bar.setProgress(current_motor_time);
+        //
+        motor_time_bar.setMax(max_motor_time);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, new IntentFilter("IncomingMsg"));
 
     }

@@ -58,6 +58,15 @@
     <string name="Zoom_Focus_to_value">Zoom Focus to value</string>
     <string name="Zoom_Focus_to_value_and_back">Zoom Focus to value and back</string>
 
+    <string name="Bokeh">Bokeh</string>
+    <string name="Firework_Focus">Firework Focus</string>
+    <string name="Firework_Zoom_Focus">Firework Zoom Focus</string>
+    <string name="Zoom_Blur_Min">Zoom Blur Min</string>
+    <string name="Zoom_Blur_Max">Zoom Blur Max</string>
+    <string name="SinWave_1">SinWave 1</string>
+    <string name="SinWave_2">SinWave 2</string>
+
+
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
