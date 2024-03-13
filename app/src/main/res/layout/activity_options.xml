@@ -1,68 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Options_Activity">
-
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <include layout="@layout/options_header_layout"/>
 
     <TextView
         android:id="@+id/options_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="|- Options -|"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.224" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="180dp"
+        android:text="|- Options -|" />
 
     <Button
         android:id="@+id/options_switch_zf_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Switch Zoom / Focus"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.316" />
+        android:layout_below="@id/options_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Switch Zoom / Focus" />
 
     <Button
         android:id="@+id/options_rotation_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rotation"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.464" />
+        android:layout_below="@id/options_switch_zf_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Rotation" />
 
     <Button
         android:id="@+id/options_reset_camera_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="RESET Camera"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.62" />
+        android:layout_below="@id/options_rotation_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="RESET Camera" />
 
     <Button
         android:id="@+id/options_reset_motor_Calibration_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="RESET Motor Calibration"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.761" />
+        android:layout_below="@id/options_reset_camera_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="RESET Motor Calibration" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

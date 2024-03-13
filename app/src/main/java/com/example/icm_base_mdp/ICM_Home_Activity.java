@@ -72,9 +72,7 @@ public class ICM_Home_Activity extends AppCompatActivity {
     private void init () {
         myGlobals = MyGlobals.getInstance();
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        action_textview = findViewById(R.id.action_textview);
         int initial_action_value = myGlobals.global_number;
-        action_textview.setText(String.valueOf(initial_action_value));
         camera_config_button = findViewById(R.id.camera_config_button);
         camera_simple_actions_button = findViewById(R.id.camera_simple_actions_button);
         camera_preset_actions_button = findViewById(R.id.camera_preset_actions_button);
@@ -95,11 +93,10 @@ public class ICM_Home_Activity extends AppCompatActivity {
             String functionName = pico_message_parts_array.get(0);
             // dummy action to test message send and reply
             if(Objects.equals(functionName, "Action1")){
-                int value = myGlobals.global_number + 1;
-                myGlobals.global_number = value;
-                action_textview.setText(String.valueOf(value));
-                Toast.makeText(ICM_Home_Activity.this, "value " + value,
-                        Toast.LENGTH_SHORT).show();
+                //int value = myGlobals.global_number + 1;
+                //myGlobals.global_number = value;
+                //Toast.makeText(ICM_Home_Activity.this, "value " + value,
+                        //Toast.LENGTH_SHORT).show();
 
             } else if (Objects.equals(functionName, "syncDevices")) {
                 myGlobals.focus_range = Integer.parseInt(pico_message_parts_array.get(1));

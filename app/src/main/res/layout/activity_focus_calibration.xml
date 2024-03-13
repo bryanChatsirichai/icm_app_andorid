@@ -1,34 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Focus_Calibration_Activity">
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
     <TextView
         android:id="@+id/focus_calibration_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="|- Focus Calibration-|"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.16" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="180dp"
+        android:text="|- Focus Calibration-|" />
+
+    <TextView
+        android:id="@+id/focus_calibration_current_step_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/focus_calibration_bar"
+        android:layout_below="@id/focus_calibration_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="85dp"
+        android:layout_marginStart="20dp"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/focus_calibration_max_rotation_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/focus_calibration_bar"
+        android:layout_below="@id/focus_calibration_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="20dp"
+        android:text="1 Rotation x steps" />
 
     <ProgressBar
         android:id="@+id/focus_calibration_bar"
         style="?android:attr/progressBarStyleHorizontal"
+        android:layout_below="@id/focus_calibration_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
         android:layout_width="188dp"
         android:layout_height="93dp"
         android:progress="0"
-        android:max="200"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.349"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.409" />
+        android:max="200" />
 
 
 
@@ -36,47 +51,21 @@
         android:id="@+id/focus_calibration_decrease_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="264dp"
-        android:text="Decrease"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/focus_calibration_increase_button"
-        app:layout_constraintHorizontal_bias="0.886"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_below="@id/focus_calibration_bar"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="100dp"
+        android:text="Decrease" />
 
     <Button
         android:id="@+id/focus_calibration_increase_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="264dp"
-        android:text="Increase"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_below="@id/focus_calibration_bar"
+        android:layout_marginTop="100dp"
+        android:layout_toEndOf="@id/focus_calibration_decrease_button"
+        android:layout_marginStart="5dp"
+        android:text="Increase" />
 
-    <TextView
-        android:id="@+id/focus_calibration_max_rotation_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1 Rotation x steps"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.17"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.339" />
-
-    <TextView
-        android:id="@+id/focus_calibration_current_step_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.081"
-        app:layout_constraintStart_toEndOf="@+id/focus_calibration_bar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.415" />
 
 
     <TextView
@@ -84,23 +73,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Set to minimum / maximum"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.169"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.525" />
+        android:layout_below="@+id/focus_calibration_bar"
+        android:layout_marginStart="20dp"
+        />
 
     <Button
         android:id="@+id/focus_calibration_set_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.739" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:layout_below="@id/focus_calibration_increase_button"
+        android:text="Set" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>
+

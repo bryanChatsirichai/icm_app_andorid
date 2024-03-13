@@ -1,55 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Camera_Settings_Activity">
+    xmlns:android="http://schemas.android.com/apk/res/android">
+        <include layout="@layout/settings_header_layout"/>
+        <TextView
+            android:id="@+id/camera_setting_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="180dp"
+            android:text="|- Camera Settings -|"
+         />
+        <Button
+            android:id="@+id/shutter_time_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/camera_setting_header"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:text="1-Shutter Time"
+         />
 
-    <include layout="@layout/settings_header_layout"/>
-    <TextView
-        android:id="@+id/camera_setting_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="|- Camera Settings -|"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.224" />
-    
-    <Button
-        android:id="@+id/shutter_time_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1-Shutter Time"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.316" />
+        <Button
+            android:id="@+id/motor_time_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/shutter_time_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:text="2-Motor Time"
+            />
 
-    <Button
-        android:id="@+id/motor_time_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2-Motor Time"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.464" />
+        <Button
+            android:id="@+id/excess_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/motor_time_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:text="3-Excess"
+            />
 
-    <Button
-        android:id="@+id/excess_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="3-Excess"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.62" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
